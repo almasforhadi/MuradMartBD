@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}🔐 Register {% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ---------- AUTH PAGE ---------- */
+.auth-page {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    {% comment %} background: #f3f4f6; {% endcomment %}
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 520px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* Header */
+.auth-card .card-header {
+    background: #3c8c00;
+    color: #fff;
+    text-align: center;
+    padding: 1.2rem;
+    border-radius: 14px 14px 0 0;
+}
+
+/* Body */
+.auth-card .card-body {
+    padding: 1.8rem;
+}
+
+/* Floating input */
+.form-floating > .form-control {
+    height: 52px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.form-floating > label {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.form-control:focus {
+    border-color: #3c8c00;
+    box-shadow: 0 0 0 0.15rem rgba(60,140,0,0.15);
+}
+
+/* Password strength */
+.password-strength {
+    font-size: 12px;
+    margin-top: 4px;
+}
+.weak { color: #dc2626; }
+.medium { color: #f59e0b; }
+.strong { color: #16a34a; }
+
+/* Error message */
+.invalid-feedback {
+    display: block;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* Button */
+.btn-primary {
+    background: #3c8c00;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.btn-primary:hover {
+    background: #2f6f00;
+}
+
+/* Divider */
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 1.4rem 0;
+}
+.divider::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #e5e7eb;
+    top: 50%;
+    left: 0;
+}
+.divider span {
+    background: #fff;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #6b7280;
+    position: relative;
+}
+
+/* Google button */
+.google-btn {
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Footer */
+.auth-footer {
+    text-align: center;
+    font-size: 14px;
+}
+.auth-footer a {
+    color: #3c8c00;
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card">
+
+        <!-- Header -->
+        <div class="card-header">
+            <h4 class="mb-1 fw-semibold">নতুন অ্যাকাউন্ট তৈরি করুন</h4>
+            <small>E-shop Mart যোগ দিন এবং কেনাকাটা শুরু করুন</small>
+        </div>
+
+        <div class="card-body">
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger py-2">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="row g-3">
+
+                    <div class="col-12 form-floating">
+                        <input type="text" class="form-control" name="username" placeholder="ব্যবহারকারীর নাম" required>
+                        <label>ব্যবহারকারীর নাম</label>
+                    </div>
+
+                    <div class="col-12 form-floating">
+                        <input type="email" class="form-control" name="email" placeholder="ইমেইল" required>
+                        <label>ইমেইল ঠিকানা</label>
+                    </div>
+
+                    <div class="col-md-6 form-floating">
+                        <input type="password" class="form-control" id="password" name="password1" placeholder="পাসওয়ার্ড" required>
+                        <label>পাসওয়ার্ড</label>
+                        <div id="strength" class="password-strength"></div>
+                    </div>
+
+                    <div class="col-md-6 form-floating">
+                        <input type="password" class="form-control" name="password2" placeholder="পাসওয়ার্ড নিশ্চিত করুন" required>
+                        <label>পাসওয়ার্ড নিশ্চিত করুন</label>
+                    </div>
+
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button class="btn btn-primary">
+                        অ্যাকাউন্ট তৈরি করুন
+                    </button>
+                </div>
+            </form>
+
+            <div class="divider">
+                <span>অথবা</span>
+            </div>
+
+            <!-- Google signup -->
+            <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100 google-btn">
+                <i class="fab fa-google"></i>
+                Google দিয়ে সাইন আপ করুন
+            </a>
+
+            <div class="auth-footer mt-4">
+                ইতিমধ্যে অ্যাকাউন্ট আছে?
+                <a href="{% url 'login' %}">লগইন করুন</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,1147 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}👤 My Profile | E-Shop{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --green-primary: #3c8c00;
+    --green-dark: #2f6f00;
+    --green-soft: #eef7e9;
+    --border-light: #e5e7eb;
+    --text-dark: #111827;
+    --text-muted: #6b7280;
+}
+
+.account-page {
+    background: #FFFFFF;
+    padding-bottom: 3rem;
+    margin-bottom: 2rem;
+}
+
+.account-header {
+    padding: 2rem 0 1.5rem;
+}
+
+.account-title {
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.account-subtitle {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+.account-sidebar {
+    position: sticky;
+    top: 90px;
+}
+
+.account-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+}
+
+.user-summary {
+    text-align: center;
+    padding: 1.5rem 1rem;
+}
+
+.user-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--green-primary);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.8rem;
+}
+
+.user-name {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.user-email {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.account-menu a {
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    border-left: 4px solid transparent;
+    transition: 0.25s ease;
+}
+
+.account-menu a:hover {
+    background: var(--green-soft);
+    color: var(--green-primary);
+}
+
+.account-menu .active {
+    background: var(--green-soft);
+    border-left-color: var(--green-primary);
+    color: var(--green-primary);
+    font-weight: 600;
+}
+
+.account-menu i {
+    width: 18px;
+    margin-right: 8px;
+}
+
+
+.content-card-header {
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--border-light);
+    font-weight: 600;
+}
+
+.content-card-header i {
+    color: var(--green-primary);
+    margin-right: 6px;
+}
+
+
+.profile-stats {
+    margin-top: 2rem;
+    background: var(--green-soft);
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.profile-stats h3 {
+    font-weight: 700;
+    color: var(--green-primary);
+    margin-bottom: 2px;
+}
+
+.profile-stats p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.order-table th {
+    font-weight: 600;
+    font-size: 14px;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.order-table td {
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.order-table tbody tr:hover {
+    background: var(--green-soft);
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.4rem 0.7rem;
+    border-radius: 50px;
+}
+
+.modal-content {
+    border-radius: 14px;
+    border: none;
+}
+
+.modal-header {
+    background: var(--green-primary);
+    color: #fff;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-body p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 992px) {
+    .account-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-stats .row > div {
+        margin-bottom: 1rem;
+    }
+
+    .content-card-body {
+        padding: 1.2rem;
+    }
+
+    .account-title {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 576px) {
+    .user-avatar {
+        width: 75px;
+        height: 75px;
+        font-size: 1.7rem;
+    }
+
+    .account-menu a {
+        padding: 0.7rem 1rem;
+        font-size: 14px;
+    }
+}
+
+
+
+/*------------------------PROFILE OVERVIEW-------------------------*/
+
+.profile-overview {
+    margin-bottom: 2rem;
+}
+
+.content-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.content-card-header {
+    padding: 1.2rem 1.6rem;
+    background: linear-gradient(135deg, #3c8c00, #2f6f00);
+    color: #ffffff;
+}
+
+
+.card-title i {
+    font-size: 1.1rem;
+}
+
+.content-card-body {
+    padding: 1.8rem;
+}
+
+
+.profile-info {
+    margin-bottom: 2rem;
+}
+
+.info-group {
+    margin-bottom: 1.2rem;
+}
+
+.info-item {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    border: 1px solid #eef0f2;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    word-break: break-word;
+}
+
+
+.profile-stats {
+    margin-top: 1.5rem;
+}
+
+.stat-item {
+    padding: 1.4rem 1rem;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #f8fafc, #ffffff);
+    border: 1px solid #e5e7eb;
+}
+
+.stat-item:hover {
+    box-shadow: 0 12px 22px rgba(0,0,0,0.08);
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #3c8c00;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+
+    .content-card-body {
+        padding: 1.3rem;
+    }
+
+    .info-group {
+        margin-bottom: 1rem;
+    }
+
+    .stat-item {
+        margin-bottom: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .content-card-header {
+        padding: 1rem 1.2rem;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .info-item {
+        padding: 0.9rem 1rem;
+    }
+
+    .stat-item {
+        padding: 1.2rem 0.8rem;
+    }
+}
+
+
+/* ----------------------- Header --------------------------------- */
+.edit-profile-card .content-card-header {
+    padding: 1.3rem 1.6rem;
+    background: linear-gradient(135deg, #3c8c00, #2f6f00);
+    color: #ffffff;
+}
+
+.edit-profile-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin: 0;
+}
+
+.edit-profile-card .content-card-body {
+    padding: 1.8rem;
+}
+
+.edit-profile-form .form-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.edit-profile-form input,
+.edit-profile-form select,
+.edit-profile-form textarea {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+}
+
+.edit-profile-form input:focus,
+.edit-profile-form textarea:focus,
+.edit-profile-form select:focus {
+    border-color: #3c8c00;
+    box-shadow: 0 0 0 0.15rem rgba(60,140,0,0.15);
+    outline: none;
+}
+
+.form-error {
+    font-size: 0.75rem;
+    color: #dc2626;
+    margin-top: 4px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+}
+
+.form-actions .btn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+
+    .edit-profile-card .content-card-body {
+        padding: 1.4rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .edit-profile-card .content-card-header {
+        padding: 1rem 1.2rem;
+    }
+
+    .edit-profile-card .card-title {
+        font-size: 1rem;
+    }
+}
+
+/*------------------------------- ORDER HISTORY------------------------------- */
+.order-history-card {
+    overflow: hidden;
+}
+.order-header {
+    padding: 1.4rem 1.6rem;
+    background: linear-gradient(135deg, #3c8c00, #2f6f00);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-header .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
+}
+
+.order-header .card-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.85;
+    margin: 0;
+}
+
+.order-count {
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.order-table {
+    margin: 0;
+}
+
+.order-table thead {
+    background: #f0fdf4;
+}
+
+.order-table th {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #065f46;
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.order-table td {
+    padding: 14px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.order-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.order-table tbody tr:hover {
+    background: #f0fdf4;
+}
+
+.order-id {
+    font-weight: 700;
+    color: #166534;
+}
+
+.order-total {
+    font-weight: 700;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-processing {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-shipped {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.status-delivered {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-canceled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.empty-state {
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+.empty-state h5 {
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 1.2rem;
+}
+
+@media (max-width: 768px) {
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .order-table th,
+    .order-table td {
+        font-size: 0.8rem;
+    }
+
+}
+
+/*-----------------------ORDER MODAL-------------------------------*/
+.order-modal-header {
+    background: linear-gradient(135deg, #2f7a00, #1f5e00);
+    color: #fff;
+    padding: 1.4rem 1.6rem;
+}
+
+.order-modal-header .modal-title {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.order-summary {
+    background: #f0fdf4;
+    padding: 1.2rem;
+    border-radius: 12px;
+}
+
+.summary-box {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+.summary-box span {
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.summary-box strong {
+    font-size: 1rem;
+}
+
+.status-processing { color: #1d4ed8; }
+.status-shipped { color: #0284c7; }
+.status-delivered { color: #166534; }
+.status-canceled { color: #991b1b; }
+
+.section-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #14532d;
+}
+
+.address-box,
+.note-box {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.modal-order-table th {
+    background: #ecfdf5;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.modal-order-table td {
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.product-info small {
+    display: block;
+    font-size: 0.75rem;
+}
+
+.order-modal-footer {
+    padding: 1rem 1.5rem;
+    background: #f9fafb;
+}
+
+@media (max-width: 768px) {
+
+    .summary-box {
+        text-align: left;
+    }
+
+    .modal-order-table th,
+    .modal-order-table td {
+        font-size: 0.8rem;
+    }
+}
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block content %}
+<section class="account-page">
+
+{% comment %} <!---------------------------- ACCOUNT HEADER ------------------------------> {% endcomment %}
+    <header class="account-header">
+        <div class="container">
+            <h1 class="account-title">অ্যাকাউন্ট</h1>
+            <p class="account-subtitle">
+                আপনার প্রোফাইল, অর্ডার এবং অ্যাকাউন্ট সেটিংস পরিচালনা করুন
+            </p>
+        </div>
+    </header>
+
+{% comment %} <!------------------------------------ACCOUNT BODY---------------------------> {% endcomment %}
+    <div class="container account-body">
+        <div class="row">
+
+            <aside class="col-lg-3 account-sidebar">
+
+                <div class="account-card user-summary">
+                    <div class="user-avatar">
+                       {{ user.first_name|default_if_none:""|slice:":1" }}{{ user.last_name|default_if_none:""|slice:":1" }}
+                    </div>
+                    <h5 class="user-name">{{ user.get_full_name }}</h5>
+                    <p class="user-email">{{ user.email }}</p>
+                </div>
+
+                <div class="account-card">
+                    <nav class="account-menu list-group list-group-flush">
+
+                        <a href="{% url 'profile' %}"
+                           class="list-group-item {% if not order_history_active and not edit_profile_active %}active{% endif %}">
+                            <i class="fas fa-user"></i>
+                            প্রোফাইল ওভারভিউ
+                        </a>
+
+                        <a href="{% url 'profile' %}?tab=edit"
+                           class="list-group-item {% if edit_profile_active %}active{% endif %}">
+                            <i class="fas fa-user-edit"></i>
+                            প্রোফাইল এডিট করুন
+                        </a>
+
+                        <a href="{% url 'profile' %}?tab=orders"
+                           class="list-group-item {% if order_history_active %}active{% endif %}">
+                            <i class="fas fa-shopping-bag"></i>
+                            অর্ডার ইতিহাস
+                        </a>
+
+                        <a href="{% url 'logout' %}"
+                           class="list-group-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            লগআউট
+                        </a>
+
+                    </nav>
+                </div>
+            </aside>
+
+
+<main class="col-lg-9 account-content">
+
+{% comment %} <!-- ---------------------PROFILE OVERVIEW----------------------------> {% endcomment %}
+{% if not edit_profile_active and not order_history_active %}
+<section class="content-section profile-overview">
+
+    <article class="content-card">
+
+
+        <header class="content-card-header">
+            <h4 class="card-title">
+                <i class="fas fa-id-card"></i>
+                 প্রোফাইল তথ্য
+            </h4>
+        </header>
+
+
+        <div class="content-card-body">
+
+  
+            <section class="profile-info">
+
+                <div class="row info-group">
+                    <div class="col-md-6 info-item">
+                        <span class="info-label">ইউজারনেম</span>
+                        <p class="info-value">{{ user.username }}</p>
+                    </div>
+                </div>
+
+                <div class="row info-group">
+                    <div class="col-md-6 info-item">
+                        <span class="info-label">ইমেইল</span>
+                        <p class="info-value">{{ user.email }}</p>
+                    </div>
+
+                    <div class="col-md-6 info-item">
+                        <span class="info-label">সদস্য হয়েছেন</span>
+                        <p class="info-value">
+                            {{ user.date_joined|date:"F d, Y" }}
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="profile-stats">
+
+                <div class="row text-center">
+
+                    <div class="col-md-4 stat-item">
+                        <h3 class="stat-value">{{ orders|length }}</h3>
+                        <p class="stat-label">মোট অর্ডার</p>
+                    </div>
+
+                    <div class="col-md-4 stat-item">
+                        <h3 class="stat-value">{{ completed_orders|length }}</h3>
+                        <p class="stat-label">সম্পন্ন অর্ডার</p>
+                    </div>
+
+                    <div class="col-md-4 stat-item">
+                        <h3 class="stat-value">৳{{ total_spent }}</h3>
+                        <p class="stat-label">মোট খরচ</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    </article>
+</section>
+{% endif %}
+
+ {% comment %} <!-- ------------------------EDIT PROFILE --------------------- ------> {% endcomment %}
+ {% if edit_profile_active %}
+<section class="content-section edit-profile">
+
+    <article class="content-card edit-profile-card">
+
+        <header class="content-card-header">
+            <h4 class="card-title">
+                <i class="fas fa-user-edit"></i>
+                প্রোফাইল হালনাগাদ
+            </h4>
+            <p class="card-subtitle">
+                আপনার ব্যক্তিগত তথ্য আপডেট করুন
+            </p>
+        </header>
+
+        <div class="content-card-body">
+
+            <form method="post" class="edit-profile-form">
+                {% csrf_token %}
+
+                <div class="row g-3">
+                    {% for field in form %}
+                    <div class="col-md-6 form-field">
+                        <label class="form-label">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="form-error">
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                        পরিবর্তন সংরক্ষণ করুন
+                    </button>
+
+                    <a href="{% url 'change_password' %}"
+                       class="btn btn-outline-danger">
+                        <i class="fas fa-lock"></i>
+                        পাসওয়ার্ড পরিবর্তন
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </article>
+</section>
+{% endif %}
+
+
+
+
+{% comment %} <!----------------------------------ORDER HISTORY--------------------------> {% endcomment %}
+{% if order_history_active %}
+<section class="content-section order-history">
+
+    <article class="content-card order-history-card">
+
+        <!-- Header -->
+        <header class="content-card-header order-header">
+            <div class="header-left">
+                <h4 class="card-title">
+                    <i class="fas fa-history"></i>
+                    অর্ডার ইতিহাস
+                </h4>
+                <p class="card-subtitle">
+                    আপনার সব অর্ডারের তালিকা
+                </p>
+            </div>
+
+            <span class="order-count">
+                {{ orders|length }} টি
+            </span>
+        </header>
+
+        <!-- Body -->
+        <div class="content-card-body p-0">
+
+            {% if orders %}
+            <div class="table-responsive">
+
+                <table class="table order-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>অর্ডার</th>
+                            <th>তারিখ</th>
+                            <th>স্ট্যাটাস</th>
+                            <th>মোট</th>
+                            <th class="text-end">অ্যাকশন</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+
+                            <td class="order-id">
+                                #{{ order.id }}
+                            </td>
+
+                            <td>
+                                {{ order.created_at|date:"M d, Y" }}
+                            </td>
+
+                            <td>
+                                <span class="status-badge status-{{ order.status }}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td class="order-total">
+                                ৳{{ order.get_total_cost }}
+                            </td>
+
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-success"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#orderModal{{ order.id }}">
+                                    <i class="fas fa-eye"></i>
+                                    বিস্তারিত
+                                </button>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-shopping-bag"></i>
+                <h5>এখনো কোনো অর্ডার নেই</h5>
+                <p>আপনি এখনো কোনো পণ্য অর্ডার করেননি</p>
+
+                <a href="{% url 'product_list' %}"
+                   class="btn btn-success">
+                    পণ্য দেখুন
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+    </article>
+</section>
+{% endif %}
+
+{% comment %} <!---------------------------------ORDER MODALS------------------------------> {% endcomment %}
+{% for order in orders %}
+<div class="modal fade order-modal" id="orderModal{{ order.id }}" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header order-modal-header">
+                <div>
+                    <h5 class="modal-title">
+                        <i class="fas fa-receipt"></i>
+                        Order #{{ order.id }}
+                    </h5>
+                    <p class="modal-subtitle">
+                        Placed on {{ order.created_at|date:"M d, Y" }}
+                    </p>
+                </div>
+
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <section class="order-summary">
+
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="summary-box">
+                                <span>Order Status</span>
+                                <strong class="status-text status-{{ order.status }}">
+                                    {{ order.get_status_display }}
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="summary-box">
+                                <span>Total Amount</span>
+                                <strong>৳{{ order.get_total_cost }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="summary-box">
+                                <span>Payment</span>
+                                {% if order.paid %}
+                                    <strong class="text-success">Paid</strong>
+                                {% else %}
+                                    <strong class="text-warning">Pending</strong>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="summary-box">
+                                <span>Transaction ID</span>
+                                <strong>
+                                    {{ order.transaction_id|default:"N/A" }}
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="order-address mt-4">
+                    <h6 class="section-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Shipping Information
+                    </h6>
+
+                    <div class="address-box">
+                        <p><strong>{{ order.username }}</strong></p>
+                        <p>{{ order.address }}</p>
+                        <p>Email: {{ order.email }}</p>
+                    </div>
+                </section>
+
+                <section class="order-items mt-4">
+                    <h6 class="section-title">
+                        <i class="fas fa-box"></i>
+                        Ordered Items
+                    </h6>
+
+                    <div class="table-responsive">
+                        <table class="table modal-order-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in order.order_items.all %}
+                                <tr>
+                                    <td>
+                                        <div class="product-info">
+                                            <strong>{{ item.product.name }}</strong>
+                                            <small class="text-muted">
+                                                {{ item.product.category.name }}
+                                            </small>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">৳{{ item.price }}</td>
+                                    <td class="text-center">{{ item.quantity }}</td>
+                                    <td class="text-end fw-bold">
+                                        ৳{{ item.get_cost }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end fw-bold">
+                                        Grand Total
+                                    </td>
+                                    <td class="text-end fw-bold">
+                                        ৳{{ order.get_total_cost }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+
+                {% if order.note %}
+                <section class="order-note mt-4">
+                    <h6 class="section-title">
+                        <i class="fas fa-sticky-note"></i>
+                        Order Note
+                    </h6>
+                    <div class="note-box">
+                        {{ order.note }}
+                    </div>
+                </section>
+                {% endif %}
+
+            </div>
+
+            <div class="modal-footer order-modal-footer">
+                <button class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+
+                {% if order.status == "processing" %}
+                <button class="btn btn-outline-danger">
+                    Cancel Order
+                </button>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+</main>
+{% endblock %}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📦 Order Confirmed</title>
+
+<style>
+
+@media only screen and (max-width:600px){
+
+.container{
+width:100% !important;
+}
+
+.padding{
+padding:15px !important;
+}
+
+.product-table th,
+.product-table td{
+font-size:13px !important;
+padding:8px !important;
+}
+
+.header-title{
+font-size:20px !important;
+}
+
+}
+
+</style>
+
+</head>
+
+<body style="margin:0;padding:0;background:#f4f6f8;font-family:Arial,Helvetica,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f8;padding:20px 10px;">
+
+<tr>
+<td align="center">
+
+<!-- Main Container -->
+<table class="container" width="600" cellpadding="0" cellspacing="0"
+style="max-width:600px;width:100%;background:#ffffff;border-radius:8px;overflow:hidden;">
+
+<!-- Header -->
+<tr>
+<td style="background:#28a745;padding:20px;text-align:center;color:#fff;">
+
+<h2 class="header-title" style="margin:0;font-size:24px;">
+🌿 MuradMartBD
+</h2>
+
+<p style="margin:5px 0 0;font-size:14px;">
+📦 আপনার অর্ডারটি সফলভাবে নিশ্চিত হয়েছে
+</p>
+
+</td>
+</tr>
+
+<!-- Greeting -->
+<tr>
+<td class="padding" style="padding:25px;font-size:15px;color:#333;line-height:1.6;">
+
+<h2>{{ order.username }}</h2>
+
+আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে। নিচে আপনার অর্ডারের বিস্তারিত তথ্য দেওয়া হলো।
+
+</td>
+</tr>
+
+<!-- Title -->
+<tr>
+<td class="padding" style="padding:0 25px;">
+
+<h3 style="color:#28a745;margin-bottom:10px;">
+🛒 অর্ডারের পণ্যসমূহ
+</h3>
+
+</td>
+</tr>
+
+<!-- Product Table -->
+<tr>
+<td class="padding" style="padding:0 25px 15px 25px;">
+
+<table class="product-table" width="100%" cellpadding="0" cellspacing="0"
+style="border-collapse:collapse;font-size:14px;">
+
+<thead>
+
+<tr style="background:#f1f3f5;">
+<th align="left" style="padding:10px;border-bottom:1px solid #ddd;">পণ্য</th>
+<th align="center" style="padding:10px;border-bottom:1px solid #ddd;">পরিমাণ</th>
+<th align="right" style="padding:10px;border-bottom:1px solid #ddd;">দাম</th>
+<th align="right" style="padding:10px;border-bottom:1px solid #ddd;">মোট</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in order.order_items.all %}
+
+<tr>
+
+<td style="padding:10px;border-bottom:1px solid #eee;">
+{{ item.product.name }}
+</td>
+
+<td align="center" style="padding:10px;border-bottom:1px solid #eee;">
+{{ item.quantity }}
+</td>
+
+<td align="right" style="padding:10px;border-bottom:1px solid #eee;">
+৳{{ item.price }}
+</td>
+
+<td align="right" style="padding:10px;border-bottom:1px solid #eee;">
+৳{{ item.get_cost }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</td>
+</tr>
+
+<!-- Price -->
+<tr>
+<td class="padding" style="padding:10px 25px;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
+
+<tr>
+<td>Subtotal</td>
+<td align="right">৳{{ order.get_total_cost }}</td>
+</tr>
+
+<tr>
+<td>Delivery Charge</td>
+<td align="right">৳80</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<hr style="border:none;border-top:1px solid #ddd;">
+</td>
+</tr>
+
+<tr>
+<td style="font-size:16px;">
+<strong>মোট মূল্য</strong>
+</td>
+
+<td align="right" style="font-size:18px;color:#28a745;">
+<strong>৳{{ order.get_total_cost|add:80 }}</strong>
+</td>
+
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<!-- Address -->
+<tr>
+<td class="padding" style="padding:0 25px 25px 25px;">
+
+<h3 style="color:#28a745;margin-bottom:10px;">
+🚚 ডেলিভারি তথ্য
+</h3>
+
+<p style="font-size:14px;color:#555;line-height:1.6;margin:0;">
+<strong>নাম:</strong> {{ order.username }}<br>
+<strong>ফোন:</strong> {{ order.phone }}<br>
+<strong>ঠিকানা:</strong> {{ order.address }}<br>
+
+{% if order.note %}
+<strong>নোট:</strong> {{ order.note }}
+{% endif %}
+</p>
+
+</td>
+</tr>
+
+<!-- Message -->
+<tr>
+<td class="padding" style="padding:0 25px 25px 25px;font-size:14px;color:#555;line-height:1.6;">
+
+আপনার অর্ডারটি শিপমেন্টের জন্য প্রস্তুত হলে আমরা আপনাকে আবার ইমেইলের মাধ্যমে জানিয়ে দেব।<br><br>
+
+MuradMartBD থেকে কেনাকাটা করার জন্য ধন্যবাদ ❤️
+
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="background:#f8f9fa;padding:20px;text-align:center;font-size:12px;color:#777;">
+
+<p style="margin:0;">
+© 2025 MuradMartBD. সর্বস্বত্ব সংরক্ষিত।
+</p>
+
+<p style="margin:5px 0 0;">
+এই ইমেইলটি পাঠানো হয়েছে {{ order.email }} ঠিকানায়।
+</p>
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
+
+</body>
+</html>

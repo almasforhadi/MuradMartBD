@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+
+{% block title %}💳 Checkout {% endblock %}
+
+{% block extra_css %}
+<style>
+/* ================= ROOT VARIABLES ================= */
+:root {
+    --primary-green: #1faa59;
+    --primary-green-dark: #148347;
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+    --border-light: #e5e7eb;
+    --radius: 12px;
+    --shadow-soft: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+/* ================= CONTAINER ================= */
+.checkout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+/* ================= HEADER ================= */
+.checkout-header {
+    margin-bottom: 2rem;
+}
+
+.checkout-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+}
+
+/* ================= STEPS ================= */
+.checkout-steps {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.step-number {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.step.active {
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.step.active .step-number {
+    background: var(--primary-green);
+    color: #fff;
+}
+
+.step.completed .step-number {
+    background: var(--primary-green-dark);
+    color: #fff;
+}
+
+/* ================= NOTICE ================= */
+.checkout-notice .alert {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    font-size: 0.95rem;
+}
+
+/* ================= CARDS ================= */
+.checkout-card,
+.summary-card {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    background: #fff;
+}
+
+.checkout-card .card-header,
+.summary-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 1.25rem;
+}
+
+.checkout-card .card-header h5,
+.summary-card .card-header h5 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.checkout-card .card-body,
+.summary-card .card-body {
+    padding: 1.25rem;
+}
+
+/* ================= FORM ================= */
+.form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--border-light);
+    font-size: 0.95rem;
+}
+
+.form-control:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.15rem rgba(31,170,89,0.15);
+}
+
+/* ================= PAYMENT ================= */
+.payment-method {
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 1rem;
+    background: #f9fafb;
+}
+
+.payment-method strong {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.payment-options{
+display:flex;
+gap:20px;
+}
+
+.payment-card{
+flex:1;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:18px;
+cursor:pointer;
+transition:0.2s;
+background:#fafafa;
+}
+
+.payment-card:hover{
+border-color:#1faa59;
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
+}
+
+.payment-card input{
+display:none;
+}
+
+.payment-card.active{
+border:2px solid #1faa59;
+background:#f0fff6;
+}
+
+/* ================= BUTTONS ================= */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 8px 18px rgba(31,170,89,0.35);
+}
+
+.btn-outline-secondary {
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* ================= SUMMARY ================= */
+.summary-card {
+    position: sticky;
+    top: 20px;
+}
+
+.summary-card strong {
+    font-size: 0.95rem;
+}
+
+.summary-card .fw-bold {
+    font-size: 0.95rem;
+}
+
+/* ================= WARNING ================= */
+.alert-warning {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    font-size: 0.95rem;
+    margin-top: 2rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 991px) {
+    .summary-card {
+        position: static;
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .checkout-title {
+        font-size: 1.6rem;
+    }
+
+    .checkout-steps {
+        gap: 1rem;
+    }
+
+    .step {
+        font-size: 0.85rem;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+    }
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="checkout-container">
+
+    <!-- ================= HEADER ================= -->
+    <section class="checkout-header mb-4">
+        <h1 class="checkout-title">Checkout</h1>
+        <div class="checkout-steps d-flex mb-3">
+            <div class="step completed me-3">
+                <div class="step-number"><i class="fas fa-check"></i></div>
+                <span>Cart</span>
+            </div>
+            <div class="step active me-3">
+                <div class="step-number">2</div>
+                <span>Shipping & Payment</span>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= USER NOTICE ================= -->
+    <div class="alert alert-primary mb-4">
+        <p>আপনার অর্ডারটি নিশ্চিত করতে অনুগ্রহ করে প্রয়োজনীয় তথ্য পূরণ করে <strong>“অর্ডার করুন”</strong> বাটনে ক্লিক করুন।</p>
+        <p>অথবা সরাসরি ফোনে অর্ডার করতে কল করুন: <strong>01852677251</strong></p>
+    </div>
+
+    <div class="row">
+        <!-- ========= LEFT: FORM ========= -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-map-marker-alt"></i> শিপিং তথ্য</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'checkout' %}">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">আপনার নাম</label>
+                                <input type="text" name="username" id="username" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">মোবাইল</label>
+                                <input type="tel" name="phone" id="phone" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label">ঠিকানা</label>
+                                <textarea name="address" id="address" class="form-control" rows="2" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="note" class="form-label">অর্ডার নোট</label>
+                                <textarea name="note" id="note" class="form-control" rows="3" placeholder="Special instructions (optional)"></textarea>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <h5>পেমেন্ট মেথড</h5>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment_method" id="cod" value="cod" required>
+                                <label class="form-check-label" for="cod">Cash On Delivery</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment_method" id="sslcommerz" value="sslcommerz">
+                                <label class="form-check-label" for="sslcommerz">SSLCommerz</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mt-3">অর্ডার করুন</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========= RIGHT: SUMMARY ========= -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>অর্ডার সারসংক্ষেপ</h5>
+                </div>
+                <div class="card-body">
+
+                    {% for item in cart.items.all %}
+                    <div class="d-flex justify-content-between mb-2">
+                        <div>
+                            <strong>{{ item.product.name }}</strong><br>
+                            <small>{{ item.quantity }} × ৳{{ item.product.price }}</small>
+                        </div>
+                        <div class="fw-bold">৳{{ item.get_cost }}</div>
+                    </div>
+                    {% endfor %}
+
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <span>সাবটোটাল</span>
+                        <span>৳{{ cart.get_total_price }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>ডেলিভারি চার্জ</span>
+                        <span>৳80</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold fs-5">
+                        <span>সর্বমোট</span>
+                        <span>৳{{ cart.get_total_price|add:80 }}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

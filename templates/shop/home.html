@@ -1,0 +1,1277 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 🏡 Home - MuradMart {% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ---------------------------HERO SLIDER -----------------------*/
+.hero-slider {
+    width: 80vw;
+    margin-left: calc(-40vw + 50%);
+    margin-right: calc(-40vw + 50%);
+    margin-bottom: 1rem;
+}
+
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide {
+    min-width: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: 360px;             
+    object-fit: cover;          
+    display: block;
+    background: #e5e7eb;
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.slider-arrow.left {
+    left: 30px;
+}
+
+.slider-arrow.right {
+    right: 30px;
+}
+
+.slider-arrow:hover {
+    background: rgba(0,0,0,0.65);
+}
+
+@media (max-width: 992px) {
+    .slide img {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .slide img {
+        height: 220px;
+    }
+
+    .slider-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 24px;
+    }
+}
+
+/*------------------------------Top Categories----------------------------*/
+.top-categories-full {
+    width: 100vw;
+    background: #fff;
+    padding: 1.4rem 0 1.8rem;
+    border-bottom: 1px solid #e5e7eb;
+    margin-left: calc(-50vw + 50%);
+}
+
+.categories-inner {
+    max-width: 80vw;          
+    margin: 0 auto;
+}
+
+.categories-header {
+    width: 80vw;
+    margin-left: calc(-40vw + 50%);
+    margin-bottom: 2rem;
+}
+
+.categories-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.categories-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #e5e7eb;
+    margin-top: 8px;
+}
+
+.categories-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.categories-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.6s ease;
+}
+
+.category-item {
+    text-align: center;
+}
+
+.category-item img {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    padding: 4px;
+    border: 2px solid #3c8c00;
+    object-fit: cover;
+    background: #fff;
+}
+
+.category-item span {
+    display: block;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+.categories-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.categories-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.6s ease;
+}
+
+.category-item {
+    flex: 0 0 calc((100% - 144px) / 7); 
+    text-align: center;
+}
+
+@media (max-width: 1200px) {
+    .category-item {
+        flex: 0 0 calc((100% - 96px) / 5);
+    }
+}
+
+@media (max-width: 992px) {
+    .category-item {
+        flex: 0 0 calc((100% - 72px) / 4);
+    }
+}
+
+@media (max-width: 768px) {
+    .category-item {
+        flex: 0 0 calc(100% / 4);
+    }
+    .category-item img {
+        width: 130px;
+        height: 130px;
+    }
+} 
+
+@media (max-width: 576px) {
+    .categories-inner {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .categories-header {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .category-item {
+        flex: 0 0 calc((100% - 48px) / 3);
+    }
+
+    .category-item img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .category-item span {
+        font-size: 13px;
+    }
+
+    .categories-title {
+        font-size: 18px;
+    }
+}
+
+
+/*--------------------------Product Cards--------------------------------*/
+
+.products-full {
+    width: 100vw;
+    background: #ffffff;
+    padding: 2.5rem 0 3.5rem;
+    margin-left: calc(-50vw + 50%);
+    margin-top: 15px;
+}
+
+.products-inner {
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
+.products-header {
+    width: 80vw;
+    margin-left: calc(-40vw + 50%);
+    margin-bottom: 2rem;
+}
+
+.products-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.products-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #e5e7eb;
+    margin-top: 8px;
+}
+
+.product-title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-title-link:hover .product-name {
+    text-decoration: underline;
+    text-decoration-color: #000;
+    text-underline-offset: 3px;
+}
+
+.product-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;   /* Stack image and body vertically */
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    border:1px solid #3c8c00;
+}
+
+
+.product-img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow:hidden;
+}
+
+.product-img-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition:transform 0.35s ease;
+}
+
+.product-card:hover .product-img-wrap img{
+    transform:scale(1.04);
+}
+
+
+.product-body {
+    padding-top: 10px;
+    text-align: center;
+
+    display: flex;          
+    flex-direction: column;  
+    height: 100%;           
+}
+
+.product-name {
+    font-size: 14px;
+    color: black;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+
+.product-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1b7f00;
+    margin-bottom: 8px;
+}
+
+.order-btn {
+    display: block;
+    width: 100%;
+    background: #3c8c00;
+    color: #fff;
+    font-size: 14px;
+    padding: 7px 0;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: auto; 
+}
+
+.order-btn:hover {
+    background: #2f6f00;
+}
+
+
+@media (max-width: 1400px) {
+    .products-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+@media (max-width: 1200px) {
+    .products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 992px) {
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 576px) {
+    .products-inner {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .products-header {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .products-title {
+        font-size: 18px;
+    }
+
+    .product-name {
+        font-size: 13px;
+    }
+}
+
+
+/*---------------------------Screen-img---------------------------------------*/
+.screen-img-full {
+    width: 100vw;
+    {% comment %} background: #ffffff; {% endcomment %}
+    margin-left: calc(-50vw + 50%);
+    margin-top: 10px;
+}
+
+.screen-img-inner {
+    max-width: 80vw;   /* same as banner/products */
+    margin: 0 auto;
+}
+
+.screen-img-box {
+    width: 100%;
+    height: 100%;     /* banner er cheye ektu kom */
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.screen-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .screen-img-inner {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .screen-img-box {
+        height: auto;
+    }
+    .screen-img-box img {
+        height: auto;
+        object-fit: contain;  
+    }
+}
+
+
+
+/*---------------------------Promo Banner---------------------------------------*/
+.promo-banner-full {
+    width: 100vw;
+    {% comment %} background: #ffffff; {% endcomment %}
+    padding: 1.0rem 0;
+    margin-left: calc(-50vw + 50%);
+    margin-top: 1px;
+}
+
+.promo-banner-inner {
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
+.promo-banner-card {
+    background: #ffffff;
+    overflow: hidden;
+    border: 1px solid #dfead8;
+}
+
+.promo-banner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 320px;
+}
+
+.promo-banner-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.promo-banner-content {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.promo-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1b5e20;
+    margin-bottom: 12px;
+}
+
+.promo-text {
+    font-size: 16px;
+    color: #374151;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.promo-btn {
+    display: inline-block;
+    background: #3c8c00;
+    color: #ffffff;
+    padding: 10px 26px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    width: fit-content;
+}
+
+.promo-btn:hover {
+    background: #2f6f00;
+}
+
+@media (max-width: 768px) {
+    .promo-banner-inner {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .promo-banner-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .promo-banner-content {
+        padding: 2rem 1.5rem;
+        text-align: center;
+        align-items: center;
+    }
+
+    .promo-title {
+        font-size: 22px;
+    }
+
+    .promo-text {
+        font-size: 14px;
+    }
+}
+
+
+
+/*--------------------------Features Section(Shipping,24/7,Checkout)---------------------*/
+    .features-section {
+        background-color: #f8f9fa;
+        padding: 4rem 0;
+        border-radius: 15px;
+        margin: 3rem 0;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #6a11cb;
+    }
+
+    .feature-title {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+        }
+    }
+
+    .card-footer .btn-primary {
+        box-shadow: 0 6px 15px rgba(106, 17, 203, 0.35);
+    }
+
+    .card-footer .btn-primary:hover {
+        transform: translateY(-2px);
+    }
+
+    .category-card {
+        background: linear-gradient(180deg,
+                #ffffff 0%,
+                #fafafa 100%);
+    }
+
+    .category-title {
+        letter-spacing: 0.5px;
+    }
+
+    .feature-item {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+        transform: translateY(-6px);
+    }
+
+    .feature-icon {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+
+
+
+
+/* --------------------- Email - section ------------------------------- */
+.newsletter-card {
+    background: linear-gradient(135deg, #0d1117 0%, #1f1f2e 100%);
+    border: none;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+    transition: none;
+}
+.newsletter-card::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle at center, rgba(0, 191, 255, 0.15), transparent 70%);
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+.newsletter-card:hover {
+    transform: none;   /* prevent lift/swing */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); /* keep original shadow */
+}
+
+.newsletter-card h3 {
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.newsletter-card p {
+    color: rgba(255,255,255,0.75);
+}
+
+.newsletter-input {
+    border-radius: 50px;
+    padding: 1rem 1.5rem;
+    border: none;
+    font-size: 1rem;
+    {% comment %} transition: all 0.3s ease; {% endcomment %}
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-input:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: none;   /* remove glow */
+    outline: none;
+    transform: none;    /* prevent any movement */
+}
+
+.btn-gradient {
+    border-radius: 50px;
+    padding: 0.9rem 1.5rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #00bfff, #1e90ff);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 5px 20px rgba(0, 191, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    transform: none;
+    box-shadow: 0 10px 30px rgba(0, 191, 255, 0.6);
+    background: linear-gradient(135deg, #00bfff, #1e90ff); 
+}
+
+@media (max-width: 768px) {
+    .newsletter-card {
+        padding: 3rem 1.5rem;
+    }
+
+    .btn-gradient {
+        font-size: 0.95rem;
+    }
+
+    .newsletter-input {
+        font-size: 0.95rem;
+        padding: 0.85rem 1rem;
+    }
+}
+/* ---------------- FAQ Section ---------------- */
+.faq-full {
+    width: 100vw;
+    background: #ffffff;
+    padding: 2rem 0;
+    margin-left: calc(-50vw + 50%);
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.faq-inner {
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
+.faq-header {
+    width: 80vw;
+    margin-left: calc(-40vw + 50%);
+    margin-bottom: 1.4rem;
+}
+
+.faq-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.faq-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #e5e7eb;
+    margin-top: 8px;
+}
+
+.faq-accordion .accordion-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.faq-accordion .accordion-button {
+    font-weight: 600;
+    font-size: 15px;
+    background: #f9fafb;
+    color: #111827;
+    padding: 12px 14px;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+    background: #ecfdf3;
+    color: #1b7f00;
+}
+
+.faq-accordion .accordion-button:focus {
+    box-shadow: none;
+}
+
+.faq-accordion .accordion-body {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #374151;
+    background: #ffffff;
+    padding: 10px 14px;
+}
+
+@media (max-width: 768px) {
+    .faq-full {
+        padding: 1.6rem 0;
+    }
+    .faq-inner {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+    .faq-header {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 1.2rem;
+    }
+    .faq-title {
+        font-size: 18px;
+    }
+
+    .faq-accordion .accordion-button {
+        font-size: 14px;
+        padding: 11px 13px;
+    }
+    .faq-accordion .accordion-body {
+        font-size: 13.5px;
+        padding: 9px 12px;
+    }
+}
+
+
+    
+</style>
+{% endblock %}
+
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-slider">
+    <div class="slider-wrapper">
+
+        <button class="slider-arrow left" id="prevSlide">&#10094;</button>
+
+        <div class="slider-track">
+            <div class="slide"><img src="{% static 'slider/slider-1.png' %}"></div>
+            <div class="slide"><img src="{% static 'slider/slider-2.png' %}"></div>
+            <div class="slide"><img src="{% static 'slider/slider-3.png' %}"></div>
+
+            <!-- CLONE FIRST SLIDE -->
+            <div class="slide clone"><img src="{% static 'slider/slider-1.png' %}"></div>
+        </div>
+
+        <button class="slider-arrow right" id="nextSlide">&#10095;</button>
+
+    </div>
+</section>
+<script>
+const track = document.querySelector('.slider-track');
+const slides = document.querySelectorAll('.slide');
+const nextBtn = document.getElementById('nextSlide');
+const prevBtn = document.getElementById('prevSlide');
+
+let index = 0;
+const slideCount = slides.length;
+
+function moveSlide() {
+    track.style.transition = 'transform 0.8s ease-in-out';
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+function nextSlide() {
+    index++;
+    moveSlide();
+
+    if (index === slideCount - 1) {
+        setTimeout(() => {
+            track.style.transition = 'none';
+            index = 0;
+            track.style.transform = `translateX(0)`;
+        }, 800);
+    }
+}
+
+function prevSlide() {
+    nextSlide();
+}
+
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
+
+setInterval(nextSlide, 4200);
+</script>
+
+
+{% comment %}<!-------------------------Top Categories-------------------> {% endcomment %}
+<section class="top-categories-full">
+    <div class="categories-inner">
+
+        <div class="categories-header">
+            <h3 class="categories-title">Top Categories</h3>
+            <span class="categories-line"></span>
+        </div>
+
+        <div class="categories-viewport">
+            <div class="categories-track" id="categoryTrack">
+
+                {% for category in categories %}
+                    <div class="category-item">
+
+                        <a href="{% url 'product_list_by_category' category.slug %}">
+                            {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                            {% endif %}
+                            <span>{{ category.name }}</span>
+                        </a>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+window.addEventListener("load", () => {
+
+    const track = document.getElementById("categoryTrack");
+    let items = Array.from(track.children);
+
+    const gap = 24;
+    let index = 0;
+
+    /* clone items for infinite loop */
+    items.forEach(item => {
+        track.appendChild(item.cloneNode(true));
+    });
+
+    function moveStep() {
+        const itemWidth = items[0].offsetWidth + gap;
+        index++;
+
+        track.style.transition = "transform 0.6s ease";
+        track.style.transform = `translateX(-${index * itemWidth}px)`;
+
+        /* reset without flicker */
+        if (index >= items.length) {
+            setTimeout(() => {
+                track.style.transition = "none";
+                track.style.transform = "translateX(0)";
+                index = 0;
+            }, 650);
+        }
+    }
+
+    setInterval(moveStep, 4000); // ⏱ 4 sec step
+
+});
+</script>
+
+
+
+
+{% comment %}<!-------------------- Products  ----------------------->{% endcomment %}
+<section class="products-full">
+    <div class="products-inner">
+
+        <!-- Header -->
+        <div class="products-header">
+            <h3 class="products-title">All Products</h3>
+            <span class="products-line"></span>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+
+            {% for product in featured_products %}
+            <div class="product-card">
+
+                <!-- Image -->
+                <a href="{% url 'product_detail' product.slug %}" class="product-link">
+                    <div class="product-img-wrap">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                </a>
+
+                <!-- Body -->
+                <div class="product-body">
+
+                    <a href="{% url 'product_detail' product.slug %}" class="product-title-link">
+                        <h4 class="product-name">{{ product.name }}</h4>
+                    </a>
+
+                    <div class="product-price">
+                        ৳{{ product.price }}
+                    </div>
+
+                    <a href="{% url 'product_detail' product.slug %}" class="order-btn">
+                        পণ্য দেখুন
+                    </a>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section> 
+
+{% comment %} -------------------Natural Food screen-img----------- {% endcomment %}
+<section class="screen-img-full">
+    <div class="screen-img-inner">
+        <div class="screen-img-box">
+            <img src="{% static "screen_img/food.png" %}"
+                 alt="Natural Food Banner">
+        </div>
+    </div>
+</section>
+
+
+{% comment %} <!--------------------------- Banner Section ---------------------------> {% endcomment %}
+<section class="promo-banner-full">
+    <div class="promo-banner-inner">
+
+        <div class="promo-banner-card">
+            <div class="promo-banner-grid">
+
+                <!-- Image -->
+                <div class="promo-banner-img d-none d-md-block">
+                    <img src="https://placehold.co/700x450/3c8c00/FFFFFF.png?text=%E0%A6%AE%E0%A7%8C%E0%A6%B8%E0%A7%81%E0%A6%AE%E0%A7%80+%E0%A6%85%E0%A6%AB%E0%A6%BE%E0%A6%B0+%E0%A7%AB%E0%A7%A6%25+%E0%A6%9B%E0%A6%BE%E0%A7%9C"
+                         alt="মৌসুমী অফার">
+                </div>
+
+                <!-- Content -->
+                <div class="promo-banner-content">
+                    <h3 class="promo-title">মৌসুমী বিশেষ ছাড়</h3>
+                    <p class="promo-text">
+                        নির্বাচিত পণ্যে সর্বোচ্চ <strong>৫০% পর্যন্ত ছাড়</strong> উপভোগ করুন।
+                        অফার সীমিত সময়ের জন্য!
+                    </p>
+                    <a href="{% url 'product_list' %}" class="promo-btn">
+                        এখনই কেনাকাটা করুন
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- Shop by Category Section -->
+{% comment %} <div class="container">
+    <div class="section-header">
+        <h2 class="section-title">Shop by Category</h2>
+        <p class="section-subtitle">Explore our wide range of product categories</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for category in categories %}
+        <div class="col">
+            <div class="card h-100 category-card">
+                <div class="card-body text-center py-4">
+                    <div class="category-icon">
+                        <i class="fas fa-{% if forloop.counter == 1 %}tshirt{% elif forloop.counter == 2 %}laptop{% elif forloop.counter == 3 %}mobile-alt{% elif forloop.counter == 4 %}home{% elif forloop.counter == 5 %}shoe-prints{% else %}tag{% endif %}"></i>
+                    </div>
+                    <h3 class="category-title">{{ category.name }}</h3>
+                    <p class="card-text">{{ category.description|truncatechars:100 }}</p>
+                    <a href="{% url 'product_list_by_category' category.slug %}" class="btn category-btn">
+                        Browse {{ category.name }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No categories available at the moment.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div> {% endcomment %}
+{% comment %}------------------ Features Section ---------------- {% endcomment %}
+{% comment %} <div class="container mb-5">
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3 class="feature-title">Free Shipping</h3>
+                <p class="feature-desc">On orders over ৳50</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <h3 class="feature-title">Easy Returns</h3>
+                <p class="feature-desc">30-day return policy</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Secure Checkout</h3>
+                <p class="feature-desc">100% protected payments</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="feature-title">24/7 Support</h3>
+                <p class="feature-desc">Dedicated customer service</p>
+            </div>
+        </div>
+    </div>
+</div>
+ {% endcomment %}
+
+
+
+{% comment %} ------------------- FAQ Section ------------------- {% endcomment %}
+<section id="faq-section" class="faq-full">
+  <div class="faq-inner">
+
+    <div class="faq-header">
+      <h3 class="faq-title">সচরাচর জিজ্ঞাসিত প্রশ্ন</h3>
+      <span class="faq-line"></span>
+    </div>
+
+    <div class="accordion faq-accordion" id="faqAccordion">
+
+      <!-- FAQ item -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq1">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#faq1Content">
+            আমি কীভাবে আমার অর্ডার ট্র্যাক করতে পারবো?
+          </button>
+        </h2>
+        <div id="faq1Content" class="accordion-collapse collapse"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            আপনি আপনার একাউন্টে লগইন করে <strong>“My Orders”</strong> অপশনে গিয়ে সহজেই অর্ডারের বর্তমান অবস্থা দেখতে পারবেন।
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq2">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#faq2Content">
+            অর্ডার ডেলিভারি পেতে কত সময় লাগে?
+          </button>
+        </h2>
+        <div id="faq2Content" class="accordion-collapse collapse"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            ঢাকার ভেতরে সাধারণত ২–৩ কার্যদিবস এবং ঢাকার বাইরে ৩–৫ কার্যদিবসের মধ্যে ডেলিভারি করা হয়।
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq3">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#faq3Content">
+            পণ্য রিটার্ন বা পরিবর্তন করা যাবে কি?
+          </button>
+        </h2>
+        <div id="faq3Content" class="accordion-collapse collapse"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            ডেলিভারি পাওয়ার <strong>৭ দিনের মধ্যে</strong> পণ্য অব্যবহৃত ও মূল অবস্থায় থাকলে রিটার্ন বা পরিবর্তন করা যাবে।
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq4">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#faq4Content">
+            ক্যাশ অন ডেলিভারি সুবিধা আছে কি?
+          </button>
+        </h2>
+        <div id="faq4Content" class="accordion-collapse collapse"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            জি হ্যাঁ, আমরা সারা বাংলাদেশে <strong>Cash on Delivery</strong> সুবিধা দিয়ে থাকি।
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faq5">
+          <button class="accordion-button collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#faq5Content">
+            কীভাবে আপনার সাথে যোগাযোগ করবো?
+          </button>
+        </h2>
+        <div id="faq5Content" class="accordion-collapse collapse"
+             data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            WhatsApp, ফোন কল অথবা Contact Page এর মাধ্যমে যেকোনো সময় আমাদের সাথে যোগাযোগ করতে পারেন।
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+{% comment %} -------------------Natural Food screen-img----------- {% endcomment %}
+<section class="screen-img-full mb-2">
+    <div class="screen-img-inner">
+        <div class="screen-img-box">
+            <img src="{% static "screen_img/pitha.png" %}"
+                 alt="Natural Food Banner">
+        </div>
+    </div>
+</section>
+
+
+<!-- Email - Section -->
+{% comment %} 
+<div class="container my-5">
+    <div class="card newsletter-card text-white p-5 rounded-4 shadow-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h3 class="display-6 fw-bold mb-3">Feel free to ask any query</h3>
+                <p class="lead mb-4 opacity-75">Get updates on new arrivals, exclusive offers & more.</p>
+               
+                <form class="row g-3 justify-content-center align-items-center"
+                    action="https://formspree.io/f/mjgejydd"
+                    method="POST">
+
+                    <!-- Email -->
+                    <div class="col-md-5">
+                        <input type="email"
+                            name="email"
+                            class="form-control form-control-lg newsletter-input text-white"
+                            placeholder="Your email address"
+                            required>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="col-md-5">
+                        <input type="text"
+                            name="message"
+                            class="form-control form-control-lg newsletter-input text-white"
+                            placeholder="Write your message"
+                            required>
+                    </div>
+
+                    <!-- Optional hidden field -->
+                    <input type="hidden" name="source" value="Quick Contact Form">
+
+                    <!-- Submit -->
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-gradient btn-lg w-100">
+                            Send
+                        </button>
+                    </div>
+
+                </form>
+                
+                <script>
+                    const form = document.querySelector("form[action*='formspree']");
+                    form.addEventListener("submit", async function (e) {
+                        e.preventDefault();
+
+                        const response = await fetch(form.action, {
+                            method: form.method,
+                            body: new FormData(form),
+                            headers: { 'Accept': 'application/json' }
+                        });
+
+                        if (response.ok) {
+                            alert("✅ Message sent successfully!");
+                            form.reset();
+                        } else {
+                            alert("❌ Failed to send message. Try again.");
+                        }
+                    });
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}Terms & Conditions{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-box {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .policy-title {
+        font-weight: 700;
+        color: black;
+    }
+
+    .policy-section h5 {
+        font-weight: 600;
+        margin-top: 25px;
+        color: #333;
+    }
+
+    .policy-section p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 10px;
+    }
+
+    .policy-contact {
+        background: #ECECEC;
+        border-left: 4px solid #0d6efd;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 25px;
+        font-weight: 500;
+    }
+
+    .policy-contact a {
+        color: #16a34a;
+        text-decoration: none;
+    }
+
+    .policy-contact a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="policy-box">
+
+        <h2 class="policy-title mb-3">
+            শর্তাবলী (Terms & Conditions)
+        </h2>
+
+        <p class="text-muted">
+            MuradMartBD থেকে কেনাকাটা করার আগে অনুগ্রহ করে নিচের শর্তাবলী
+            মনোযোগ সহকারে পড়ে নিন। আমাদের ওয়েবসাইট ব্যবহার করার মাধ্যমে
+            আপনি এসব শর্তে সম্মত হচ্ছেন।
+        </p>
+
+        <div class="policy-section">
+
+            <h5>📝 অর্ডার নিশ্চিতকরণ</h5>
+            <p>
+                অর্ডার সম্পন্ন করার সময় সঠিক নাম, মোবাইল নম্বর এবং পূর্ণ ঠিকানা
+                প্রদান করা আবশ্যক। ভুল তথ্যের কারণে ডেলিভারি ব্যর্থ হলে
+                MuradMartBD দায়ী থাকবে না।
+            </p>
+
+            <h5>🚚 ডেলিভারি চার্জ</h5>
+            <p>
+                পণ্যের ধরন ও ডেলিভারি এরিয়ার উপর ভিত্তি করে ডেলিভারি চার্জ
+                নির্ধারিত হবে, যা অর্ডারের মোট মূল্যের সাথে যুক্ত হবে।
+            </p>
+
+            <h5>🔍 পণ্য গ্রহণ</h5>
+            <p>
+                ডেলিভারি ম্যান উপস্থিত থাকা অবস্থায় পণ্যটি ভালোভাবে যাচাই করে
+                গ্রহণ করুন। কোনো সমস্যা থাকলে তাৎক্ষণিকভাবে আমাদের জানান।
+            </p>
+
+            <h5>📦 রিটার্ন পলিসি</h5>
+            <p>
+                পণ্য ছবির সাথে অমিল হলে বা ত্রুটিযুক্ত হলে কুরিয়ার চার্জ
+                প্রদান সাপেক্ষে রিটার্ন করা যাবে (প্রযোজ্য শর্ত অনুযায়ী)।
+            </p>
+
+        </div>
+
+        <div class="policy-contact">
+            📞 <a href="tel:01616355160">+01852677251</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,564 @@
+{% extends 'base.html' %}
+
+{% block title %}🔍 {{ product.name }} | MuradMart{% endblock %}
+
+
+ {% block extra_css %}
+<style>
+
+.product-detail-page {
+    max-width: 90vw;
+    margin: 0 auto 5rem;
+    padding: 2rem 0;
+}
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.breadcrumb-item a {
+    color: #3c8c00;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: #111827;
+}
+
+/* ---------- Product Section ---------- */
+.product-image-container, .placeholder-image {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.35s ease;
+}
+
+.product-image-container:hover img {
+    transform: scale(1.03);
+}
+
+.product-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.rating i {
+    color: #3c8c00;
+    margin-right: 2px;
+}
+
+.text-muted {
+    color: #6b7280 !important;
+}
+
+.product-detail-page .h3.text-primary {
+    color: #1b7f00;
+    font-weight: 700;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
+
+.bg-success {
+    background-color: #3c8c00 !important;
+    color: #fff !important;
+}
+
+.bg-danger {
+    background-color: #dc2626 !important;
+    color: #fff !important;
+}
+
+.bg-secondary {
+    background-color: #6b7280 !important;
+    color: #fff !important;
+}
+/* ---------- PREMIUM MAGNIFIER ---------- */
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+/*-------------- Big premium lens -----------------------*/
+.magnifier-lens {
+    position: absolute;
+    width: 260px;         
+    height: 260px;
+    border-radius: 12px;  
+    overflow: hidden;
+    display: none;
+    pointer-events: none;
+
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.15);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25),
+        inset 0 0 0 1px rgba(255,255,255,0.4);
+
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 50;
+    backdrop-filter: blur(2px);
+}
+.magnifier-lens img {
+    position: absolute;
+    transform-origin: top left;
+    will-change: transform;
+}
+
+.product-image-container:hover .magnifier-lens {
+    display: block;
+}
+/* ---------- Add to Cart Button ---------- */
+.btn-primary {
+    background-color: #3c8c00;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #2f6f00;
+}
+
+/* ---------- Reviews Section ---------- */
+.nav-tabs {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-tabs .nav-link {
+    font-weight: 600;
+    color: #374151;
+}
+
+.nav-tabs .nav-link.active {
+    color: #111827;
+    border-color: #3c8c00 #3c8c00 #fff;
+}
+
+.tab-content .card {
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.card .rating i {
+    font-size: 14px;
+}
+/* ===== Reviews Tab Button Style ===== */
+.nav-tabs {
+    border-bottom: none; /* remove line to make it button-like */
+    margin-bottom: 1rem; /* spacing from content */
+    display: flex;
+    justify-content: flex-start; /* left-align */
+    gap: 0.5rem; /* small gap if more tabs */
+}
+
+.nav-tabs .nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #3c8c00;
+    background-color: #3c8c00; 
+    color: #fff;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: #2f6f00;
+    color: #fff;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #1b7f00; 
+    color: #fff;
+    border-bottom-color: transparent; 
+}
+/* ---------- Related Products ---------- */
+.product-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    border: 1px solid #3c8c00;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-body.d-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body h5 {
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+    color: #111827;
+}
+
+.card-body .fw-bold {
+    color: #1b7f00;
+    font-weight: 700;
+}
+
+.card-body .rating i {
+    font-size: 12px;
+}
+
+.btn-sm.btn-primary {
+    background-color: #3c8c00;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-sm.btn-primary:hover {
+    background-color: #2f6f00;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+    .product-detail-page {
+        padding: 1rem 0;
+    }
+    .product-card img {
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-detail-page {
+        padding: 1rem 0;
+    }
+    .product-card img {
+        height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-title {
+        font-size: 24px;
+    }
+    .product-card img {
+        height: 120px;
+    }
+}
+
+
+</style>
+{% endblock %}
+
+
+
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Products</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'product_list_by_category' product.category.slug %}">{{ product.category.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+    </ol>
+</nav>
+
+
+<section class="product-detail-page">
+
+    <div class="row g-4">
+
+        <div class="col-lg-5 col-md-6">
+            {% if product.image %}
+            <div class="product-image-container">
+                <img src="{{ product.image.url }}" 
+                    alt="{{ product.name }}" 
+                    class="img-fluid rounded main-product-image">
+
+                <div class="magnifier-lens">
+                    <img src="{{ product.image.url }}" alt="Zoomed Image">
+                </div>
+            </div>
+            {% else %}
+            <div class="placeholder-image bg-light text-center p-5 rounded">
+                <i class="fas fa-image fa-5x text-muted"></i>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-7 col-md-6 d-flex flex-column">
+            <h1 class="product-title mb-2">{{ product.name }}</h1>
+
+            <div class="d-flex align-items-center mb-3">
+                <div class="rating me-2">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.average_rating %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <span class="text-muted">{{ product.ratings.count }} review{{ product.ratings.count|pluralize }}</span>
+            </div>
+
+            <h2 class="h3 text-primary mb-4">৳{{ product.price }}</h2>
+
+            <p class="mb-4">{{ product.description }}</p>
+
+            <div class="mb-4 d-flex gap-2 flex-wrap">
+                <span class="badge {% if product.stock > 0 %}bg-success{% else %}bg-danger{% endif %}">
+                    {% if product.stock > 0 %} স্টক আছে ({{ product.stock }}){% else %}স্টক নেই{% endif %}
+                </span>
+                <span class="badge bg-secondary">{{ product.category.name }}</span>
+            </div>
+
+            {% if product.stock > 0 %}
+            <form action="{% url 'cart_add' product.id %}" method="post" class="mt-auto">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-shopping-cart me-2"></i> কার্টে যোগ করুন
+                </button>
+            </form>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- ===== Reviews Section ===== -->
+    <div class="mt-5">
+        <ul class="nav nav-tabs" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" 
+                        type="button" role="tab" aria-controls="reviews" aria-selected="true">
+                    রিভিউসমূহ ({{ product.ratings.count }})
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content p-4 border border-top-0 rounded-bottom" id="productTabsContent">
+            <div class="tab-pane fade show active " id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+
+                {% if product.ratings.count > 0 %}
+                <div class="mb-4">
+                    <h4>ক্রেতাদের রিভিউ</h4>
+                    {% for rating in product.ratings.all %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="mb-0">{{ rating.user.username }}</h5>
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= rating.rating %}
+                                        <i class="fas fa-star"></i>
+                                        {% else %}
+                                        <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-2">{{ rating.created|date:"F d, Y" }}</p>
+                            <p class="mb-0">{{ rating.comment }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {% comment %} <p>কোনও রিভিউ নেই। প্রথম রিভিউ লিখুন!</p> {% endcomment %}
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    {% if user_rating %}
+                    <h4>আপনার রিভিউ</h4>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= user_rating.rating %}
+                                        <i class="fas fa-star"></i>
+                                        {% else %}
+                                        <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'rate_product' product.id %}" class="btn btn-sm btn-outline-primary">
+                                    রিভিউ সম্পাদনা করুন
+                                </a>
+                            </div>
+                            <p class="mb-0">{{ user_rating.comment }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            {% comment %} <h4>রিভিউ</h4> {% endcomment %}
+                            <p>আপনি কি এই পণ্যটি কিনেছেন? আপনার মতামত শেয়ার করুন!</p>
+                            <a href="{% url 'rate_product' product.id %}" class="btn btn-primary">রিভিউ লিখুন</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="alert alert-info">
+                    রিভিউ লেখার জন্য<a href="{% url 'login' %}?next={{ request.path }}">লগইন</a> করুন।
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Related Products ===== -->
+    {% if related_products %}
+    <div class="mt-5">
+        <h3 class="mb-4">Related Products</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            {% for product in related_products %}
+            <div class="col">
+                <div class="card h-100 product-card">
+                {% if product.image %}
+                <a href="{% url 'product_detail' product.slug %}">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                </a>
+                {% else %}
+                <a href="{% url 'product_detail' product.slug %}">
+                    <div class="placeholder-image bg-light text-center p-5">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
+                </a>
+                {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-2">
+                            <a href="{% url 'product_detail' product.slug %}" class="text-decoration-none text-dark">
+                                {{ product.name }}
+                            </a>
+                        </h5>
+                        <div class="mb-2 d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">৳{{ product.price }}</span>
+                            <div class="rating">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= product.average_rating %}
+                                    <i class="fas fa-star"></i>
+                                    {% else %}
+                                    <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-sm btn-primary mt-auto">পণ্য দেখুন</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+
+{% comment %} Magnifying glass  {% endcomment %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const container = document.querySelector(".product-image-container");
+    if (!container) return;
+
+    const lens = container.querySelector(".magnifier-lens");
+    const lensImg = lens.querySelector("img");
+    const mainImg = container.querySelector(".main-product-image");
+
+    const zoomLevel = 2.8;
+
+    function setZoomSize() {
+        lensImg.style.width = mainImg.offsetWidth * zoomLevel + "px";
+        lensImg.style.height = mainImg.offsetHeight * zoomLevel + "px";
+    }
+
+    setZoomSize();
+    window.addEventListener("resize", setZoomSize);
+
+    container.addEventListener("mousemove", function(e){
+
+        const rect = container.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const percentX = x / rect.width;
+        const percentY = y / rect.height;
+
+        lens.style.display = "block";
+
+        let lensX = x - lens.offsetWidth / 2;
+        let lensY = y - lens.offsetHeight / 2;
+
+        lensX = Math.max(0, Math.min(lensX, rect.width - lens.offsetWidth));
+        lensY = Math.max(0, Math.min(lensY, rect.height - lens.offsetHeight));
+
+        lens.style.left = lensX + "px";
+        lens.style.top = lensY + "px";
+
+        const moveX = percentX * (lensImg.offsetWidth - lens.offsetWidth);
+        const moveY = percentY * (lensImg.offsetHeight - lens.offsetHeight);
+
+        lensImg.style.left = -moveX + "px";
+        lensImg.style.top = -moveY + "px";
+
+    });
+
+    container.addEventListener("mouseleave", function(){
+        lens.style.display = "none";
+    });
+
+});
+</script>
+
+
+{% endblock %}
+

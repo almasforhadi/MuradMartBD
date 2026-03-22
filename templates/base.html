@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Commerce Store{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    {% load static %}
+    {% block extra_css %}{% endblock %}
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --primary-dark: #5a0cb8;
+            --primary-light: #7c4ddb;
+            --secondary-color: #2575fc;
+            --text-color: #333333;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+html, body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color);
+    background-color: #ECECEC;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    padding-top: 75px; 
+}
+.site-header,
+.main-header,
+.category-bar {
+    width: 100%;
+    left: 0;
+}
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3000;
+}
+/*-------------------- Navbar styling------------------------------*/
+
+.parent-marquee {
+    background: #3c8c00;
+    padding: 0 200px;   
+    overflow: hidden; 
+}
+
+.top-marquee {
+    background: #3c8c00;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+
+    overflow: hidden;
+    white-space: nowrap;
+}
+.marquee-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marqueeMove 30s linear infinite;
+}
+@keyframes marqueeMove {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+.top-marquee marquee {
+    padding: 0 10px;   
+}
+
+/* ----------------- MAIN HEADER ------------------- */
+.main-header {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;          
+    padding: 8px 0;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3c8c00;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;        
+    margin-left: 20px; 
+}
+
+.search-form {
+    flex: 1;
+    max-width: 520px;
+    margin: 0 40px;
+    display: flex;
+}
+
+.search-form input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid #3c8c00;
+    border-right: none;
+    outline: none;
+}
+
+.search-form button {
+    background: #3c8c00;
+    border: none;
+    padding: 0 20px;
+    color: #fff;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;         
+    margin-right: 20px;
+}
+
+.action-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.action-link:hover {
+    color: #3c8c00;
+}
+
+.register-btn {
+    background: #3c8c00;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 3px;
+}
+
+.cart-link {
+    position: relative;
+    font-size: 18px;
+    color: #1b7f00;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: #3c8c00;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+/* --------- CATEGORY nav ----------- */
+.category-bar {
+    background: #3c8c00;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.category-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    gap: 34px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    max-width: 1200px;         
+    overflow-x: auto;            
+    scrollbar-width: none;      
+}
+.category-menu::-webkit-scrollbar {
+    display: none;              
+}
+.category-menu li {
+    flex-shrink: 0;
+}
+
+.category-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 4px 0;
+}
+
+.category-menu a:hover {
+    text-decoration: underline;
+}
+
+/* ================= MOBILE HEADER ================= */
+
+.mobile-top-bar {
+    display: none !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+}
+
+.menu-toggle {
+    font-size: 22px;
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+.mobile-logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3c8c00;
+}
+
+.mobile-top-bar .mobile-logo {
+    flex: 1;
+    text-align: center;
+}
+.mobile-cart {
+    position: relative;
+    font-size: 20px;
+    color: #333;
+}
+
+/* ================= MOBILE BOTTOM NAV ================= */
+
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    z-index: 2000;
+    justify-content: space-around;
+    align-items: center;
+    padding: 6px 0;
+    display: none;
+    flex: 1;
+}
+
+.mobile-bottom-nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 12px;
+    text-align: center;
+}
+
+.mobile-bottom-nav i {
+    font-size: 18px;
+    display: block;
+}
+
+/* Center Home Button */
+.home-btn {
+    background: #3c8c00;
+    color: #fff !important;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: -30px 0 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.home-btn i {
+    font-size: 22px;
+}
+.mobile-cart .cart-count {
+    top: -6px;
+    right: -8px;
+}
+/* ================= MOBILE SIDEBAR ================= */
+
+.mobile-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: #ffffff;
+    padding: 18px 16px;
+    z-index: 4100;
+    transition: 0.35s ease;
+    box-shadow: 4px 0 18px rgba(0,0,0,0.15);
+}
+
+.mobile-sidebar.active {
+    left: 0;
+}
+
+.mobile-sidebar a {
+    padding: 10px 4px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.mobile-sidebar a:last-child {
+    border-bottom: none;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3c8c00;
+}
+
+.sidebar-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    color: #333;
+}
+
+.sidebar-close:hover {
+    color: #3c8c00;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 12px 0 16px;
+}
+
+.sidebar-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1b7f00;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 11px 6px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: #f3f8ee;
+    color: #3c8c00;
+}
+
+.sidebar-link:last-child {
+    border-bottom: none;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    z-index: 4000;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+
+/* ================= RESPONSIVE(Header+navbar) ================= */
+
+/* Tablets & small laptops */
+@media (max-width: 991px) {
+    .parent-marquee {
+        padding: 0 100px;   
+    }
+    .logo {
+        display: none;
+    }
+    .header-inner {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .nav-left {
+        margin-left: 0;
+        gap: 20px;
+    }
+
+    .search-form {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .header-actions {
+        margin-right: 0;
+        gap: 20px;
+    }
+
+    .category-menu {
+        justify-content: flex-start;
+        gap: 22px;
+    }
+}
+
+/* Mobile devices */
+@media (max-width: 767px) {
+    .parent-marquee {
+        padding: 0 40px;   
+    }
+    .top-marquee {
+        font-size: 13px;
+    }
+
+    .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Logo + nav row */
+    .logo {
+        text-align: center;
+        margin: 0;
+    }
+
+    .nav-left {
+        justify-content: center;
+        gap: 24px;
+        margin: 6px 0;
+    }
+
+    .header-actions {
+        justify-content: center;
+        gap: 22px;
+    }
+
+    .category-menu {
+        padding: 10px 0;
+        gap: 20px;
+    }
+    .search-form {
+        max-width: 92%;    
+        margin: 4px auto;  
+    }
+    /* hide desktop items */
+    .nav-left,
+    .header-actions {
+        display: none;
+    }
+    .category-bar {
+        display: none;
+    }
+    /* show mobile header */
+    .mobile-top-bar {
+        display: flex !important;
+        padding: 6px 12px;
+    }
+    .header-inner {
+        gap: 6px;         
+    }
+
+    .mobile-bottom-nav {
+        display: flex;
+    }
+
+    body {
+        padding-bottom: 70px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .action-link {
+        font-size: 13px;
+    }
+
+    .search-form input {
+        padding: 9px 14px;
+        font-size: 14px;
+    }
+
+    .category-menu a {
+        font-size: 13px;
+    }
+}
+
+
+
+        /*--------------- WhatsApp Floating Button ------------------*/
+        .whatsapp-float {
+            position: fixed;
+            bottom: 80px;
+            right: 25px;
+            background-color: #25D366;
+            color: #fff;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 28px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #1ebe5d;
+            transform: scale(1.1);
+            color: #fff;
+        }
+
+        .whatsapp-icon {
+            margin-top: 2px;
+        }
+
+
+/* ================= Scroll To Top Button ================= */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 140px; /* WhatsApp button থেকে উপরে */
+    right: 22px;
+
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+
+    background: #3c8c00;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: all 0.25s ease;
+
+    box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+    z-index: 1200;
+}
+
+#scrollTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+    background: #2f6f00;
+    transform: translateY(-2px);
+}
+
+
+/* ================= Footer styling ================= */
+.site-footer {
+    background: #f8fafc;
+    color: #374151;
+    padding: 65px 0 25px;
+    border-top: 1px solid #e5e7eb;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.footer-row > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.footer-title::after {
+    content: "";
+    width: 40px;
+    height: 2px;
+    background: #22c55e;
+    display: block;
+    margin-top: 6px;
+    border-radius: 2px;
+}
+
+.footer-text {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #6b7280;
+}
+
+.footer-address {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: auto; 
+}
+
+.footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-list li {
+    margin-bottom: 9px;
+}
+
+.footer-list a {
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 0.92rem;
+    position: relative;
+}
+
+.footer-list a:hover {
+    color: #16a34a;
+
+}
+
+
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px 0;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 11px;
+    font-size: 0.92rem;
+    color: #4b5563;
+}
+
+.footer-contact i {
+    color: #22c55e;
+    width: 16px;
+}
+
+.footer-contact a {
+    color: #4b5563;
+    text-decoration: none;
+}
+
+.footer-contact a:hover {
+    color: #16a34a;
+}
+
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+
+.footer-social a:nth-child(1) { color: #1877f2; } 
+.footer-social a:nth-child(2) { color: #1da1f2; } 
+.footer-social a:nth-child(3) { color: #e1306c; } 
+.footer-social a:nth-child(4) { color: #0a66c2; } 
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+
+.footer-bottom {
+    border-top: 1px solid #e5e7eb;
+    margin-top: 45px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin: 0;
+}
+
+
+@media (max-width: 992px) {
+    .site-footer {
+        padding: 55px 0 22px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .site-footer {
+        text-align: center;
+        padding: 45px 0 20px;
+    }
+
+    .footer-title::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-contact li {
+        justify-content: center;
+    }
+
+    .footer-social {
+        justify-content: center;
+        margin-top: 12px;
+    }
+
+    .footer-address {
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    .footer-list a:hover {
+        padding-left: 0;
+    }
+}
+
+
+
+        .alert {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: none;
+        }
+        @media (max-width: 576px) {
+            footer {
+                text-align: center;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+        /*------------mini-footer------------*/
+        .mini-footer {
+            background: #3c8c00;
+            padding: 10px 0;
+        }
+
+        .mini-footer p {
+            margin: 0;
+            text-align: center;
+            font-size: 13px;
+            color: #ffffff;
+            line-height: 1.5;
+        }
+
+        .mini-footer span {
+            font-weight: 600;
+            color: #eaffd0;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+<!-- cart-drawer / mobile sidebar -->
+<div id="mobileSidebar" class="mobile-sidebar">
+    
+    <div class="sidebar-header">
+        <span class="sidebar-title">MuradMartBD</span>
+        <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <h4 class="sidebar-subtitle">Categories</h4>
+
+    <a href="{% url 'product_list' %}" class="sidebar-link">
+        All Products
+    </a>
+
+    {% for c in categories %}
+        <a href="{% url 'product_list_by_category' c.slug %}" class="sidebar-link">
+            {{ c.name }}
+        </a>
+    {% endfor %}
+</div>
+
+
+<div class="site-header">
+<div class="parent-marquee">
+<div class="top-marquee">
+    <div class="marquee-text">
+        MuradMartBD শপে আপনাকে স্বাগতম ||
+        অনলাইনে আস্থা ও বিশ্বস্ততার সাথে সারা বাংলাদেশে হোম ডেলিভারী দিয়ে থাকি ||
+        অর্ডার করতে অগ্রিম টাকা দিতে হবে না ||
+        এ্যাডভান্স বিকাশ পেমেন্টে ৫% ডিসকাউন্ট ||
+        ৩-৫ দিনে সারাদেশে হোম ডেলিভারী দেওয়া হয় ||
+        ক্যাশঅন ডেলিভারীর সুবিধা রয়েছে ||
+        ধন্যবাদ
+    </div>
+</div>
+</div>
+<header class="main-header">
+        <div class="header-inner container">
+            <!-- MOBILE TOP BAR -->
+            <div class="mobile-top-bar">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <span class="mobile-logo">MuradMartBD</span>
+                <a href="{% url 'cart_detail' %}" class="mobile-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    {% if cart_items_count %}
+                    <span class="cart-count">{{ cart_items_count }}</span>
+                    {% endif %}
+                </a>
+            </div>
+
+            <!-- LOGO -->
+            <a class="logo" href="{% url 'home' %}">MuradMartBD</a>
+
+            <!-- LEFT NAV (Home, Products) -->
+            <div class="nav-left">
+                <a href="{% url 'home' %}" class="action-link">Home</a>
+                <a href="{% url 'product_list' %}" class="action-link">Products</a>
+            </div>
+
+            <!-- SEARCH -->
+            <form class="search-form" action="{% url 'product_list' %}" method="get">
+                <input type="search" name="search" placeholder="Search products...">
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <!-- RIGHT NAV (Cart, User) -->
+            <div class="header-actions">
+
+                <!-- CART -->
+                <a href="{% url 'cart_detail' %}" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    {% if cart_items_count %}
+                    <span class="cart-count">{{ cart_items_count }}</span>
+                    {% endif %}
+                </a>
+
+                <!-- USER -->
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <a class="action-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle"></i> {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'profile' %}">
+                                <i class="fas fa-user me-2"></i> Profile
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" style="color:red" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="action-link">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="{% url 'register' %}" class="action-link register-btn">
+                    Register
+                </a>
+                {% endif %}
+
+            </div>
+    </div>
+</header>
+<nav class="category-bar">
+    <ul class="category-menu container">
+
+        <li>
+            <a href="{% url 'product_list' %}">All Products</a>
+        </li>
+
+        {% for c in categories|slice:":8" %}
+            <li>
+                <a href="{% url 'product_list_by_category' c.slug %}">
+                    {{ c.name }}
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+</nav>
+
+</div>
+
+    <main class="container">
+        {% if messages %}
+        <div class="messages mb-4">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {% if message.tags == 'success' %}
+                <i class="fas fa-check-circle me-2"></i>
+                {% elif message.tags == 'info' %}
+                <i class="fas fa-info-circle me-2"></i>
+                {% elif message.tags == 'warning' %}
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                {% elif message.tags == 'error' %}
+                <i class="fas fa-times-circle me-2"></i>
+                {% endif %}
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+        <!-- WhatsApp Floating Button -->
+        <a href="https://wa.me/8801852677251?text=Hello%20I%20need%20some%20information" class="whatsapp-float"
+            target="_blank" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+
+    </main>
+
+
+<!----------------------------- Scroll To Top Button ----------------------->
+<button id="scrollTopBtn" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+
+<!-----------------------  footer ----------------------------------------------->
+  <footer class="site-footer">
+    <div class="container">
+        <div class="row footer-row gy-4">
+
+            <!-- About / Brand -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-title">MuradMart</h5>
+                <p class="footer-text">
+                    MuradMartBD একটি বিশ্বস্ত অনলাইন শপ যেখানে আপনি পাচ্ছেন
+                    মানসম্মত পণ্য, সাশ্রয়ী মূল্য এবং দ্রুত হোম ডেলিভারি সুবিধা।
+                    আমরা প্রতিশ্রুতিবদ্ধ আপনার নিরাপদ ও সহজ অনলাইন শপিং অভিজ্ঞতার জন্য।
+                </p>
+                <address class="footer-address">
+                    Bara Beraid, Badda,<br>
+                    Dhaka-1212, Bangladesh
+                </address>
+            </div>
+
+            <!-- Customer Service -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-title">Customer Service</h5>
+                <ul class="footer-list">
+                    <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
+                    <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'return_refund' %}">Return & Refund</a></li>
+                </ul>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-title">Useful Links</h5>
+                <ul class="footer-list">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'product_list' %}">All Products</a></li>
+                    <li>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile' %}">My Account</a>
+                        {% else %}
+                            <a href="javascript:void(0);" onclick="alert('Profile খোলার জন্য আগে Login/Register করতে হবে!')">My Account</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact & Social -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-title">Contact Us</h5>
+
+                <ul class="footer-contact">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:contact@eshop.com">muradmartbd@gmail.com</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+8801234567890">+880 1852-677251</a>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        Dhaka, Bangladesh
+                    </li>
+                </ul>
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <p class="footer-text small mt-3">
+                    নতুন পণ্য, অফার ও ডিসকাউন্ট পেতে আমাদের সাথে যুক্ত থাকুন।
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</footer>
+
+
+    <!-- MINI FOOTER -->
+    <div class="mini-footer">
+        <div class="container">
+            <p>
+                Copyright © 2026 MuradMartBD. All rights reserved |
+                Developed By: <span>Almas Forhadi</span>
+            </p>
+        </div>
+    </div>
+
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}
+         <!--- toggole/mobile sidebar --->
+        <script>
+        function toggleSidebar() {
+            document.getElementById("mobileSidebar").classList.toggle("active");
+            document.getElementById("sidebarOverlay").classList.toggle("active");
+        }
+
+
+     /* === Scroll To Top Button ===== */
+        const scrollBtn = document.getElementById("scrollTopBtn");
+
+        // Show/hide button on scroll
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.add("show");
+            } else {
+                scrollBtn.classList.remove("show");
+            }
+        });
+
+        // Smooth scroll to top
+        scrollBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+
+        </script>
+    {% endblock %}
+
+<!------------------ MOBILE BOTTOM NAV -------------------->
+<div class="mobile-bottom-nav">
+    <a href="#" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+        <span>Category</span>
+    </a>
+
+    <a href="{% url 'product_list' %}">
+        <i class="fa-solid fa-barcode"></i>
+        <span>Products</span>
+    </a>
+    
+    <a href="{% url 'home' %}" class="home-btn">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <a href="{% url 'cart_detail' %}" class="cart-link">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart</span>
+    </a>
+
+    <a href="{% url 'profile' %}">
+        <i class="fas fa-user"></i>
+        <span>Account</span>
+    </a>
+</div>
+</body>
+
+</html>

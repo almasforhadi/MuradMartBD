@@ -1,0 +1,529 @@
+{% extends 'base.html' %}
+
+{% block title %}🛒 Shopping Cart{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --green-primary: #1faa59;
+    --green-dark: #148347;
+    --green-light: #e9f8f0;
+
+    --text-dark: #1f2937;
+    --text-muted: #6b7280;
+
+    --border-light: #e5e7eb;
+    --radius: 12px;
+    --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.cart-page {
+    padding-top: 1rem;
+    padding-bottom: 4rem; /* footer gap fix */
+}
+
+.cart-page .cart-header {
+    margin-top: 0 !important;
+}
+
+
+footer {
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .cart-page {
+        padding-bottom: 5rem;
+    }
+}
+
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.cart-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.cart-card {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    background: #fff;
+}
+
+.cart-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+}
+
+.cart-card .card-body {
+    padding: 1.25rem;
+}
+
+.cart-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f9fafb;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.cart-item-category {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* ===============================
+   PRICE & QUANTITY
+================================ */
+.cart-quantity-input {
+    width: 68px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    font-size: 0.95rem;
+}
+
+.cart-update-btn {
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
+    color: var(--green-primary);
+    transition: all 0.2s ease;
+}
+
+.cart-update-btn:hover {
+    background: var(--green-primary);
+    color: #fff;
+    border-color: var(--green-primary);
+}
+
+.cart-remove-btn {
+    background: #fff;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
+    transition: all 0.2s ease;
+}
+
+.cart-remove-btn:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+.summary-card {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    background: #fff;
+    position: sticky;
+    top: 20px;
+}
+
+.summary-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+}
+
+.summary-card .card-body {
+    padding: 1.25rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.9rem;
+    color: var(--text-dark);
+}
+
+.summary-value {
+    font-weight: 600;
+}
+
+.summary-total {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--green-dark);
+}
+
+.checkout-btn {
+    background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1.3rem; 
+    font-weight: 600;
+    color: #fff;
+}
+
+.checkout-btn:hover {
+    box-shadow: 0 8px 18px rgba(31, 170, 89, 0.35);
+}
+
+.continue-btn {
+    border-radius: 999px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-color: var(--green-primary);
+    color: var(--green-primary);
+}
+
+.continue-btn:hover {
+    background: var(--green-primary);
+    color: #fff;
+}
+
+.empty-cart {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.empty-cart-icon {
+    font-size: 4.5rem;
+    color: var(--green-primary);
+    margin-bottom: 1.25rem;
+}
+
+.empty-cart-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.empty-cart-text {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.browse-btn {
+    background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1.3rem; 
+    font-weight: 600;
+    color: #fff;
+}
+
+.browse-btn:hover {
+    box-shadow: 0 8px 18px rgba(31, 170, 89, 0.35);
+}
+
+@media (max-width: 768px) {
+    .cart-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .summary-card {
+        position: static;
+        margin-top: 1.5rem;
+    }
+
+    .cart-item {
+        padding: 1.25rem 0;
+    }
+
+    .cart-item-image {
+        width: 64px;
+        height: 64px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="cart-page">
+    
+
+<!-- ===== Cart Header ===== -->
+<div class="cart-header mt-5">
+    <div>
+        <h1 class="cart-title">শপিং কার্ট</h1>
+        <small class="text-muted">
+            আপনার নির্বাচিত পণ্যসমূহ
+        </small>
+    </div>
+
+    {% if cart.items.exists %}
+        <span class="badge bg-success rounded-pill fs-6">
+            {{ cart.get_total_items }} টি পণ্য
+        </span>
+    {% endif %}
+</div>
+
+{% if cart.items.exists %}
+<div class="row g-4">
+
+    <!-- ================= Cart Items ================= -->
+    <div class="col-lg-8">
+        <div class="cart-card card">
+            <div class="card-header">
+                <h5 class="mb-0">কার্টে থাকা পণ্য</h5>
+            </div>
+
+            <div class="card-body">
+                {% for item in cart.items.all %}
+                <div class="cart-item row align-items-center">
+
+                    <!-- Product Info -->
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-center">
+                            {% if item.product.image %}
+                                <div class="cart-item-image me-3">
+                                    <img src="{{ item.product.image.url }}" 
+                                         alt="{{ item.product.name }}" 
+                                         class="img-fluid">
+                                </div>
+                            {% else %}
+                                <div class="cart-item-image bg-light d-flex align-items-center justify-content-center me-3">
+                                    <i class="fas fa-image text-muted"></i>
+                                </div>
+                            {% endif %}
+
+                            <div>
+                                <h6 class="cart-item-title">
+                                    {{ item.product.name }}
+                                </h6>
+                                <div class="cart-item-category">
+                                    ক্যাটাগরি: {{ item.product.category.name }}
+                                </div>
+                                <a href="{% url 'product_detail' item.product.slug %}" class="text-decoration-none">
+                                    <small class="text-success">
+                                        পণ্যের বিস্তারিত দেখুন
+                                    </small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unit Price -->
+                    <div class="col-md-2 text-center">
+                        <div class="fw-bold item-price">
+                            ৳ {{ item.product.price }}
+                        </div>
+                        <small class="text-muted">প্রতি পিস</small>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="col-md-2">
+                        <form action="{% url 'cart_update' item.product.id %}"
+                              method="post"
+                              class="d-flex align-items-center justify-content-center">
+                            {% csrf_token %}
+                            <input type="number"
+                                   name="quantity"
+                                   class="form-control cart-quantity-input"
+                                   value="{{ item.quantity }}"
+                                   min="1"
+                                   max="{{ item.product.stock }}">
+                            <button type="submit"
+                                    class="cart-update-btn ms-2"
+                                    title="পরিমাণ আপডেট করুন">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Total Price -->
+                    <div class="col-md-2 text-center">
+                        <div class="fw-bold item-total">
+                            ৳ {{ item.get_cost }}
+                        </div>
+                        <small class="text-muted">মোট মূল্য</small>
+                    </div>
+
+                    <!-- Remove -->
+                    <div class="col-md-1 text-end">
+                        <form action="{% url 'cart_remove' item.product.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="cart-remove-btn"
+                                    title="কার্ট থেকে সরান">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= Order Summary ================= -->
+    <div class="col-lg-4">
+        <div class="summary-card card">
+            <div class="card-header">
+                <h5 class="mb-0">অর্ডার সারাংশ</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="summary-item">
+                    <span>
+                        সাবটোটাল ({{ cart.get_total_items }} টি পণ্য)
+                    </span>
+                    <span class="summary-value" id="cart-subtotal">
+                        ৳ {{ cart.get_total_price }}
+                    </span>
+                </div>
+
+                <div class="summary-item">
+                    <span>ডেলিভারি চার্জ</span>
+                    <span class="summary-value ">
+                        ৳ 80
+                    </span>
+                </div>
+
+                <hr>
+
+                <div class="summary-item mb-4">
+                    <span class="summary-total">
+                        সর্বমোট
+                    </span>
+                    <span class="summary-total" id="cart-total">
+                        ৳ {{ cart.get_total_price|add:80 }}
+                    </span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'checkout' %}" class="btn checkout-btn">
+                        <i class="fas fa-lock me-2"></i>
+                        চেকআউট করুন
+                    </a>
+
+                    <a href="{% url 'product_list' %}" class="btn btn-outline-success continue-btn">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        কেনাকাটা চালিয়ে যান
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% else %}
+
+<!-- ================= Empty Cart ================= -->
+<div class="empty-cart">
+    <div class="empty-cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <h3 class="empty-cart-title">
+        আপনার কার্ট খালি
+    </h3>
+
+    <p class="empty-cart-text">
+        এখনো কোনো পণ্য কার্টে যোগ করা হয়নি। <br>
+        পছন্দের পণ্য নির্বাচন করে কেনাকাটা শুরু করুন।
+    </p>
+
+    <a href="{% url 'product_list' %}" class="btn browse-btn">
+        <i class="fas fa-store me-2"></i>
+        পণ্য দেখুন
+    </a>
+</div>
+
+{% endif %}
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    const deliveryCharge = 80;
+
+    const quantityInputs = document.querySelectorAll(".cart-quantity-input");
+
+    quantityInputs.forEach(input => {
+
+        input.addEventListener("change", function(){
+
+            const row = this.closest(".cart-item");
+
+            const price = parseFloat(
+                row.querySelector(".item-price").innerText.replace("৳","")
+            );
+
+            const quantity = parseInt(this.value);
+
+            const itemTotalElement = row.querySelector(".item-total");
+
+            const itemTotal = price * quantity;
+
+            itemTotalElement.innerText = "৳ " + itemTotal;
+
+            updateSummary();
+        });
+
+    });
+
+
+    function updateSummary(){
+
+        let subtotal = 0;
+
+        document.querySelectorAll(".item-total").forEach(item => {
+
+            const value = parseFloat(
+                item.innerText.replace("৳","")
+            );
+
+            subtotal += value;
+
+        });
+
+        document.getElementById("cart-subtotal").innerText = "৳ " + subtotal;
+
+        document.getElementById("cart-total").innerText =
+            "৳ " + (subtotal + deliveryCharge);
+
+    }
+
+});
+</script>
+{% endblock %}

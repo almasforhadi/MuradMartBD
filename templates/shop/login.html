@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}🔑 Login {% endblock %}
+
+{% block extra_css %}
+<style>
+/* ------------------ LOGIN PAGE -------------------- */
+
+.login-page {
+    min-height: auto;                 /* ⬅ extra height বাদ */
+    display: flex;
+    align-items: flex-start;          /* ⬅ top থেকে শুরু */
+    justify-content: center;
+    background: #ECECEC;
+    padding-top: 1.2rem;              /* ⬅ navbar → card gap */
+    padding-bottom: 1.2rem;           /* ⬅ card → footer gap */
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    overflow: hidden;
+    animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    background: #3c8c00;
+    color: #fff;
+    text-align: center;
+    padding: 1.4rem;
+}
+
+.login-header h4 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.login-body {
+    padding: 1.8rem;
+}
+
+.login-body label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.login-body .form-control {
+    border-radius: 8px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+.login-body .form-control:focus {
+    border-color: #3c8c00;
+    box-shadow: 0 0 0 0.15rem rgba(60,140,0,0.15);
+}
+
+.login-btn {
+    background: #3c8c00;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.login-btn:hover {
+    background: #2f6f00;
+}
+
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.divider span {
+    position: relative;
+    background: #fff;
+    padding: 0 10px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.google-btn {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.signup-text {
+    text-align: center;
+    margin-top: 1.4rem;
+    font-size: 14px;
+}
+
+.signup-text a {
+    color: #3c8c00;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.signup-text a:hover {
+    text-decoration: underline;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-header">
+            <h4>স্বাগতম</h4>
+            <small>আপনার অ্যাকাউন্টে লগইন করুন</small>
+        </div>
+
+        <div class="login-body">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label>ব্যবহারকারীর নাম অথবা ইমেইল</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>পাসওয়ার্ড</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <div class="d-grid mt-3">
+                    <button type="submit" class="login-btn">
+                        লগইন করুন
+                    </button>
+                </div>
+            </form>
+
+            <div class="divider">
+                <span>অথবা</span>
+            </div>
+
+            <a href="{% provider_login_url 'google' next=request.GET.next %}"
+               class="btn btn-outline-danger google-btn">
+                <i class="fab fa-google"></i>
+                গুগল দিয়ে লগইন করুন
+            </a>
+
+            <div class="signup-text">
+                এখনো অ্যাকাউন্ট নেই?
+                <a href="{% url 'register' %}">নতুন অ্যাকাউন্ট তৈরি করুন</a>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+{% endblock %}

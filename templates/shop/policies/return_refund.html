@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Return Policy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-box {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .policy-title {
+        font-weight: 700;
+        color: black;
+    }
+
+    .policy-section h5 {
+        font-weight: 600;
+        margin-top: 25px;
+        color: #333;
+    }
+
+    .policy-section p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 10px;
+    }
+
+    .policy-contact {
+        background: #ECECEC;
+        border-left: 4px solid #0d6efd;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 25px;
+        font-weight: 500;
+    }
+
+    .policy-contact a {
+        color: #16a34a;
+        text-decoration: none;
+    }
+
+    .policy-contact a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="policy-box">
+
+        <h2 class="policy-title mb-3">
+            রিটার্ন পলিসি (Return Policy)
+        </h2>
+
+        <p class="text-muted">
+            পণ্য কেনাকাটার ক্ষেত্রে আমাদের রিটার্ন সংক্রান্ত নিয়মাবলী নিচে দেওয়া হলো।
+            অনুগ্রহ করে অর্ডার গ্রহণের সময় ভালোভাবে পড়ে নিন।
+        </p>
+
+        <div class="policy-section">
+
+            <h5>🔍 চেক করে গ্রহণ</h5>
+            <p>
+                ডেলিভারি ম্যান উপস্থিত থাকা অবস্থায় অনুগ্রহ করে পণ্যটি ভালোভাবে
+                দেখে এবং যাচাই করে গ্রহণ করুন।
+            </p>
+
+            <h5>📦 রিটার্ন শর্ত</h5>
+            <p>
+                যদি পণ্য ছবির সাথে না মেলে বা কোনো দৃশ্যমান সমস্যা থাকে,
+                তাহলে কুরিয়ার চার্জ প্রদান সাপেক্ষে সাথে সাথেই রিটার্ন করতে পারবেন।
+            </p>
+
+            <h5>⏰ রিটার্ন সময়সীমা</h5>
+            <p>
+                ডেলিভারি ম্যান চলে যাওয়ার পর কোনো রিটার্ন বা অভিযোগ গ্রহণযোগ্য হবে না।
+                তাই পণ্য গ্রহণের সময় অবশ্যই যাচাই করুন।
+            </p>
+
+        </div>
+
+        <div class="policy-contact">
+            📞 <a href="tel:01616355160">+01852677251</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
