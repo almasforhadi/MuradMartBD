@@ -27,9 +27,13 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
 
 
-ALLOWED_HOSTS = ['www.muradmartbd.onrender.com']
+ALLOWED_HOSTS = [
+    'muradmartbd.onrender.com',
+    'www.muradmartbd.onrender.com'
+]
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://muradmartbd.onrender.com",
     "https://www.muradmartbd.onrender.com"
 ]
 
