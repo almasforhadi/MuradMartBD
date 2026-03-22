@@ -27,15 +27,13 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG')
 
 
-ALLOWED_HOSTS = ['.onrender.com', 'muradmartBD.com', 'www.muradmartBD.com']
+ALLOWED_HOSTS = ['www.muradmartbd.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://muradmartBD.com",
-    "https://www.muradmartBD.com"
+    "https://www.muradmartbd.onrender.com"
 ]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,6 +58,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
