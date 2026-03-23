@@ -13,6 +13,7 @@ import os
 import environ
 import dj_database_url
 from pathlib import Path
+import cloudinary
 
 env = environ.Env()
 environ.Env.read_env()
@@ -53,6 +54,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     "crispy_forms",
     "crispy_bootstrap5",
+    'cloudinary',
+    'cloudinary_storage',
     
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -153,12 +156,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+cloudinary.config(
+    cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key = os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret = os.environ.get("CLOUDINARY_API_SECRET")
+)
+
 # static file
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # media file
