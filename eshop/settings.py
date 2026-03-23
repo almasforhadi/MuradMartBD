@@ -29,13 +29,15 @@ DEBUG = env.bool('DEBUG')
 
 
 ALLOWED_HOSTS = [
-    'muradmartbd.onrender.com',
-    'www.muradmartbd.onrender.com'
+    'muradmartbd.com',
+    'www.muradmartbd.com',
+    'muradmartbd.onrender.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://muradmartbd.onrender.com",
-    "https://www.muradmartbd.onrender.com"
+    "https://muradmartbd.com",
+    "https://www.muradmartbd.com",
+    "https://muradmartbd.onrender.com"
 ]
 
 # Application definition
