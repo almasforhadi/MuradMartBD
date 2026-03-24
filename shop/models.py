@@ -9,7 +9,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
     description = models.TextField()
-    image = CloudinaryField('image')
+    image = CloudinaryField('image', blank=True, null=True)
     # image = models.ImageField(upload_to='categories/', blank=True, null=True) 
     
 
@@ -32,7 +32,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # image = models.ImageField(upload_to='products/%Y/%m/%d') # products/25/10/2025
-    image = CloudinaryField('image')
+    image = CloudinaryField('image', blank=True, null=True)
     
     class Meta:
         indexes = [
