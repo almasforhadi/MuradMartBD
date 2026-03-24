@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from cloudinary.models import CloudinaryField
 
 
 # Category Model
@@ -8,7 +9,9 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='categories/', blank=True, null=True) 
+    image = CloudinaryField('image')
+    # image = models.ImageField(upload_to='categories/', blank=True, null=True) 
+    
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -28,7 +31,8 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='products/%Y/%m/%d') # products/25/10/2025
+    # image = models.ImageField(upload_to='products/%Y/%m/%d') # products/25/10/2025
+    image = CloudinaryField('image')
     
     class Meta:
         indexes = [
