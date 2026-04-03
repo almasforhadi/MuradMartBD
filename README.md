@@ -1,244 +1,216 @@
 # 🛒 MuradMartBD — Django E-commerce Platform
 
-A modern and scalable **Django-based E-commerce web application** featuring product browsing, cart management, and complete order processing.  
+A modern, scalable **Django-based E-commerce web application** with full production-ready architecture.
 
-It supports multiple payment methods including **Cash on Delivery (COD)** and secure online transactions via **SSLCommerz**.  
+This project supports complete shopping flow including product browsing, cart management, order processing, and secure payments via SSLCommerz.
 
-The application is production-ready, served using **Gunicorn**, and successfully deployed on **Render** for live usage.
+The application is containerized using Docker, served via Gunicorn + Nginx, and designed with AWS cloud deployment architecture.
 
 ---
 
 # 🚀 Features
 
-### 🛍️ Shopping Experience
+## 🛍️ Shopping Experience
+- Product listing with categories  
+- Product detail page  
+- Product rating and reviews  
+- Product search and filtering  
 
-* Product listing with categories
-* Product detail page
-* Product rating and reviews
-* Product search and filtering
+## 🛒 Cart System
+- Add to cart  
+- Update cart quantity  
+- Remove items  
+- Session-based cart for guests  
+- Persistent cart for authenticated users  
 
-### 🛒 Cart System
+## 💳 Checkout & Orders
+- Cash on Delivery (COD)  
+- Secure online payment via SSLCommerz  
+- Order confirmation system  
+- Order tracking  
 
-* Add to cart
-* Update cart quantity
-* Remove items
-* Session-based cart for guests
-* Persistent cart for logged-in users
+## 👤 User Accounts
+- Registration & Login  
+- Google Social Login (Django Allauth)  
+- Profile management  
+- Password change  
 
-### 💳 Checkout & Orders
+## ⭐ Product Ratings
+- Verified purchase rating system  
+- 1–5 star rating  
+- Review comments  
 
-* Cash on Delivery (COD)
-* Secure online payment with **SSLCommerz**
-* Order confirmation system
-* Order status tracking
-
-### 👤 User Accounts
-
-* User registration and login
-* Google social login (via **Django Allauth**)
-* Profile management
-* Password change
-
-### ⭐ Product Ratings
-
-* Only users who purchased a product can rate it
-* Star rating (1-5)
-* Review comments
-
-### 📧 Email Notifications
-
-* Order confirmation email sent after successful order placement
+## 📧 Email Notifications
+- Order confirmation emails  
 
 ---
 
 # 🏗️ Tech Stack
 
-| Technology     | Purpose                       |
-| -------------- | ----------------------------- |
-| Django         | Backend web framework         |
-| Gunicorn       | Production WSGI server        |          
-| PostgreSQL     | Database (Production)         |
-| Django Allauth | Authentication & Google Login |
-| SSLCommerz     | Online payment gateway        |
-| WhiteNoise     | Static file serving           |
-| Bootstrap      | Frontend UI                   |
-| Crispy Forms   | Form rendering                |
+| Technology       | Purpose                       |
+|----------------|------------------------------|
+| Django          | Backend framework            |
+| PostgreSQL      | Database (AWS RDS)           |
+| Gunicorn        | WSGI server                  |
+| Nginx           | Reverse proxy                |
+| Docker          | Containerization             |
+| AWS EC2         | Application hosting          |
+| AWS RDS         | Managed database             |
+| AWS S3          | Media storage                |
+| Cloudinary      | Image CDN (fallback)         |
+| GitHub Actions  | CI/CD pipeline               |
+| SSLCommerz      | Payment gateway              |
+| Bootstrap       | Frontend                     |
+
+---
+
+# ☁️ AWS Deployment Architecture
+
+
+User Request </br>
+↓</br>
+Nginx (Reverse Proxy)</br>
+↓</br>
+Gunicorn</br>
+↓</br>
+Django Application (Docker Container)</br>
+↓</br>
+PostgreSQL (AWS RDS)</br>
+↓</br>
+Media Files → AWS S3 Bucket
+
 
 ---
 
 # 📂 Project Structure
 
-```
-eshop/
-│
-├── eshop/                # Django project settings
-├── shop/                 # Main ecommerce application
-│
-├── static/               # Static assets (css/js/images)
-├── media/                # Uploaded images
-├── staticfiles/          # Collected static files
-│
-├── templates/            # HTML templates
-│
-├── requirements.txt
-├── .env
-└── manage.py
-```
+
+eshop/</br>
+│</br>
+├── eshop/     # Django project settings</br>
+├── shop/      # Main app</br>
+│</br>
+├── templates/    </br>
+├── static/       </br>
+├── staticfiles/  </br>
+│</br>
+├── nginx/         </br>
+│ └── default.conf </br>
+│</br>
+├── .github/</br>
+│ └── workflows/</br>
+│ └── deploy.yml     # CI/CD pipeline</br>
+│</br>
+├── Dockerfile</br>
+├── docker-compose.yml</br>
+├── .env</br>
+├── requirements.txt</br>
+├── manage.py</br>
+└── README.md</br>
+
 
 ---
 
 # ⚙️ Environment Variables
 
-Create a `.env` file in the project root:
+## Create a `.env` file in root:
 
-```
-SECRET_KEY=your_secret_key
-DEBUG=True
+SECRET_KEY=your_secret_key</br>
+DEBUG=False</br>
+ALLOWED_HOSTS=your-domain.com</br>
+DATABASE_URL=your_rds_database_url</br>
 
-ALLOWED_HOSTS=127.0.0.1,localhost
+AWS_ACCESS_KEY_ID=your_key</br>
+AWS_SECRET_ACCESS_KEY=your_secret</br>
+AWS_STORAGE_BUCKET_NAME=your_bucket</br>
+AWS_S3_REGION_NAME=your_region</br>
 
-# SSLCommerz
-SSLCOMMERZ_STORE_ID=your_store_id
-SSLCOMMERZ_STORE_PASSWORD=your_store_password
-SSLCOMMERZ_PAYMENT_URL=https://sandbox.sslcommerz.com/gwprocess/v4/api.php
-SSLCOMMERZ_VALIDATION_URL=https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php
+SSLCOMMERZ_STORE_ID=your_store_id</br>
+SSLCOMMERZ_STORE_PASSWORD=your_store_password</br>
+SSLCOMMERZ_PAYMENT_URL=https://sandbox.sslcommerz.com/gwprocess/v4/api.php</br>
+SSLCOMMERZ_VALIDATION_URL=https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php</br>
 
-# Email
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_HOST_USER=your_email@gmail.com
-EMAIL_HOST_PASSWORD=your_app_password
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-```
+EMAIL_HOST=smtp.gmail.com</br>
+EMAIL_HOST_USER=your_email@gmail.com</br>
+EMAIL_HOST_PASSWORD=your_password</br>
+EMAIL_PORT=587</br>
+EMAIL_USE_TLS=True</br>
 
 ---
 
+# 🐳 Docker Setup
 
-# 🔧 Local Development (Without Docker)
-
-### Install dependencies
-
+## Run locally using Docker:
 ```bash
-pip install -r requirements.txt
+docker-compose up --build
 ```
 
-### Run migrations
-
+## 🔄 CI/CD Pipeline
+Configured using GitHub Actions.
+Workflow:
 ```bash
-python manage.py migrate
+Push Code → GitHub
+        ↓
+Docker Build
+        ↓
+CI Pipeline Run
+        ↓
+Deployment Ready
 ```
 
-### Create superuser
+# 📦 Deployment (AWS)
 
-```bash
-python manage.py createsuperuser
-```
+This project is designed for AWS deployment using the following services:
 
-### Run development server
+## 🔹 EC2 (Elastic Compute Cloud)
+Hosts the Django application</br>
+Dockerized environment</br>
+Gunicorn server</br>
+Nginx reverse proxy</br>
 
-```bash
-python manage.py runserver
-```
+## 🔹 RDS (PostgreSQL)
+Managed database service</br>
+Secure and scalable storage</br>
 
----
+## 🔹 S3 Bucket
+Stores uploaded media files</br>
+Integrated with Django storage backend</br>
 
-# 💳 Payment Integration
+## 🚀 Deployment Steps
+Launch EC2 instance (Ubuntu)</br>
+Install Docker & Docker Compose</br>
+Clone project from GitHub</br>
+Configure .env file</br>
 
-This project integrates **SSLCommerz** payment gateway.
+## Run:
+docker-compose up -d</br>
+Configure Nginx</br>
+Connect domain to EC2 public IP</br>
+(Optional) Setup HTTPS using SSL</br>
 
-Supported payment methods:
-
-* Credit / Debit Cards
-* Mobile Banking (bKash, Nagad, Rocket)
-* Internet Banking
-
-Payment flow:
-
-```
-Checkout
-   ↓
-SSLCommerz Payment Gateway / Cash-on-delivery
-   ↓
-Payment Verification
-   ↓
-Order Confirmation
-```
-
----
-
-# 📦 Deployment
-
-The project can be deployed easily using **Render**.
-
-Deployment flow:
-
-```
-Local Development
-      ↓
-Git Push → GitHub
-      ↓
-Render Auto Deploy
-      ↓
-Live Production Server
-```
-
-Whenever new code is pushed to GitHub, **Render automatically redeploys the application**.
-
----
-
-# 🔐 Security Features
-
-* CSRF protection
-* Secure session cookies
-* XSS protection
-* Content-type sniffing prevention
-* Payment verification with SSLCommerz
-
----
+## 🔐 Security Features
+CSRF protection</br>
+Secure cookies</br>
+XSS protection</br>
+Content-type protection</br>
+Payment validation with SSLCommerz</br>
+Environment-based secret management</br>
 
 # 🧪 Admin Panel
 
-Django Admin allows management of:
-
-* Products
-* Categories
-* Orders
-* Users
-* Ratings
-
-Admin URL:
-
-```
+Access admin panel:
+```bash
 /admin
 ```
 
----
-
-# 📸 Future Improvements
-
-Possible enhancements:
-
-* PostgreSQL database
-* Order tracking dashboard
-* Wishlist feature
-* Product recommendation system
-* Celery for background tasks
-
----
+# 🌐 Live Demo
+```bash
+https://muradmartbd.com
+```
 
 # 👨‍💻 Author
-
-Developed as a **full-stack Django e-commerce project** demonstrating:
-
-* Backend architecture
-* Payment integration
-* Production deployment
-* Production-ready configuration
-
----
+Md Almas Forhadi | 2026
 
 # 📄 License
 
-This project is not open-source. It is intended for production use only.
-Unauthorized copying, modification, or distribution is strictly prohibited.
+This project is not open-source. It is intended for production use only. Unauthorized copying, modification, or distribution is strictly prohibited.
