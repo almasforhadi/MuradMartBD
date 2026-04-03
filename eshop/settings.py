@@ -21,7 +21,7 @@ environ.Env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env('SECRET_KEY', default='unsafe-secret-key')
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = env.bool('DEBUG', default=False)
 
 
 ALLOWED_HOSTS = [
@@ -34,6 +34,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://muradmartbd.com",
     "https://www.muradmartbd.com",
     "https://muradmartbd.onrender.com"
+    'localhost',
+    '127.0.0.1',
 ]
 
 # Application definition
@@ -122,11 +124,6 @@ DATABASES = {
 }
 
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3")
-    )
-}
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
