@@ -15,8 +15,10 @@ jobs:
     - name: Build Docker Image
       run: docker build -t eshop .
 
-    - name: Run Tests
-      run: echo "No tests yet"
+    - name: Run Container Test
+      run: |
+        docker run -d -p 8000:8000 eshop
+        sleep 10
 
     - name: Success
       run: echo "Build Successful 🚀"
